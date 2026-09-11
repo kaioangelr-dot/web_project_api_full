@@ -1,4 +1,5 @@
 const user = require('../models/user');
+const bcrypt = require('bcryptjs');
 
 module.exports.getAllUsers = (req, res) => {
   user
@@ -24,14 +25,23 @@ module.exports.getUser = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-  const { name, about, avatar } = req.body;
-
-  user
-    .create({ name, about, avatar })
-    .then((userData) => res.status(201).send({ data: userData }))
+  const { name, about, avatar, email, password } = req.body;
+  bcrypt
+    .hash(password, 10)
+    .then((hash) => user.create({ name, about, avatar, email, password: hash }))
+    .then((userData) => {
+      const userObject = userData.toObject();
+      delete userObject.password;
+      res.status(201).send({ data: userObject });
+    })
     .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
         return res.status(400).send({ message: 'Invalid data' });
+      }
+      if (err.code === 11000) {
+        return res
+          .status(409)
+          .send({ message: 'User with this email already exists' });
       }
       return res.status(500).send({ message: 'Server error' });
     });

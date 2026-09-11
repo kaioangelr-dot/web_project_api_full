@@ -5,11 +5,13 @@ const userSchema = mongoose.Schema({
     type: String,
     minlength: 2,
     maxlength: 30,
+    default: 'Jacques Cousteau',
   },
   about: {
     type: String,
     minlength: 2,
     maxlength: 30,
+    default: 'Explorer',
   },
   avatar: {
     type: String,
@@ -19,6 +21,8 @@ const userSchema = mongoose.Schema({
       before the first .com it does not allow any other caracters than dots, digits,
       hifens and letters. It ends with either .com, .com/ or .com/'infinite caracters' */
     },
+    default:
+      'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg',
   },
   email: {
     type: String,
