@@ -1,5 +1,6 @@
 const user = require('../models/user');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 module.exports.getAllUsers = (req, res) => {
   user
@@ -88,5 +89,22 @@ module.exports.updateAvatar = (req, res) => {
         return res.status(400).send({ message: 'Invalid data' });
       }
       return res.status(500).send({ message: 'Server error' });
+    });
+};
+
+module.exports.login = (req, res) => {
+  const { email, password } = req.body;
+
+  return user
+    .findUserByCredentials(email, password)
+    .then((userData) => {
+      const token = jwt.sign({ _id: userData._id }, 'secret-key', {
+        expiresIn: '7d',
+      });
+
+      res.send({ token });
+    })
+    .catch((err) => {
+      res.status(401).send({ message: err.message });
     });
 };
