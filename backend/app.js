@@ -1,15 +1,14 @@
 const { PORT = 3000 } = process.env;
 
 const express = require('express');
-const app = express();
-
 const mongoose = require('mongoose');
 const { celebrate, Joi } = require('celebrate');
-
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+
+const app = express();
 
 const validateSignup = celebrate({
   body: Joi.object().keys({
@@ -34,7 +33,7 @@ mongoose
     console.log('Connected to MongoDB');
   })
   .catch((err) => {
-    console.error('Error connecting to MongoDB:', err);
+    console.log('Error connecting to MongoDB:', err);
   });
 
 app.use(express.json());

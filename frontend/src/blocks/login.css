@@ -1,0 +1,109 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0 80px 0;
+  font-family: "Inter", sans-serif;
+}
+
+.login__title {
+  margin: 0 0 50px;
+  color: white;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  width: 30%;
+}
+
+.login__form label {
+  display: none;
+}
+
+.login__input {
+  background-color: #000;
+  color: white;
+  border: none;
+  border-bottom: 2px solid #cccccc;
+  width: 100%;
+  height: 27px;
+  padding-bottom: 13px;
+  font-weight: 500;
+}
+
+.login__input::placeholder {
+  color: #cccccc;
+}
+
+.login__button {
+  margin-top: 216px;
+  width: 30%;
+  height: 50px;
+  font-size: 18px;
+}
+
+.login__button:hover {
+  background-color: #cccccc;
+  cursor: pointer;
+}
+
+.login__signup {
+  color: white;
+  margin: 15px 0 0;
+  font-size: 14px;
+  line-height: 1;
+  width: 30%;
+  display: flex;
+  justify-content: center;
+}
+
+.login__signup-text {
+  margin: 0;
+}
+
+.signup__link {
+  text-decoration: none;
+  margin: 0;
+  color: white;
+}
+
+.signup__link:hover {
+  color: #cccccc;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 544px) {
+  .login {
+    padding: 40px 30px;
+  }
+  .login__title {
+    font-size: 20px;
+    margin-bottom: 40px;
+  }
+
+  .login__form {
+    width: 100%;
+  }
+
+  .login__button {
+    width: 100%;
+    margin-top: 173px;
+    font-size: 16px;
+  }
+
+  .login__signup {
+    width: 100%;
+  }
+
+  .login__signup {
+    font-size: 12px;
+  }
+}

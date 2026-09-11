@@ -1,6 +1,6 @@
-const user = require('../models/user');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const user = require('../models/user');
 
 module.exports.getAllUsers = (req, res) => {
   user
@@ -26,10 +26,26 @@ module.exports.getUser = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-  const { name, about, avatar, email, password } = req.body;
+  /* prettier-ignore */
+  const {
+    name,
+    about,
+    avatar,
+    email,
+    password,
+  } = req.body;
+  /* prettier-ignore */
   bcrypt
     .hash(password, 10)
-    .then((hash) => user.create({ name, about, avatar, email, password: hash }))
+    .then((hash) => user.create(
+      {
+        name,
+        about,
+        avatar,
+        email,
+        password: hash,
+      },
+    ))
     .then((userData) => {
       const userObject = userData.toObject();
       delete userObject.password;
