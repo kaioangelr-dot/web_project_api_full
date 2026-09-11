@@ -108,3 +108,15 @@ module.exports.login = (req, res) => {
       res.status(401).send({ message: err.message });
     });
 };
+
+module.exports.getCurrentUser = (req, res, next) => {
+  user
+    .findById(req.user._id)
+    .then((userData) => {
+      if (!userData) {
+        return res.status(404).send({ message: 'User not found' });
+      }
+      return res.send({ data: userData });
+    })
+    .catch(next);
+};

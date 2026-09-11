@@ -37,15 +37,6 @@ mongoose
     console.error('Error connecting to MongoDB:', err);
   });
 
-// user Id to get acess to the cards
-app.use((req, res, next) => {
-  req.user = {
-    _id: '6a74cf835fca0893afab787f',
-  };
-
-  next();
-});
-
 app.use(express.json());
 
 app.post('/signin', validateSignin, login);
