@@ -9,6 +9,7 @@ const { celebrate, Joi } = require('celebrate');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
+const auth = require('./middlewares/auth');
 
 const validateSignup = celebrate({
   body: Joi.object().keys({
@@ -49,6 +50,8 @@ app.use(express.json());
 
 app.post('/signin', validateSignin, login);
 app.post('/signup', validateSignup, createUser);
+
+app.use(auth);
 
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
