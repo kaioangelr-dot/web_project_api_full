@@ -8,7 +8,7 @@
 }
 
 .card__title {
-  max-width: 220px;
+  max-width: 190px;
   font-size: 24px;
   font-weight: 900;
   line-height: 29px;
@@ -19,7 +19,8 @@
 }
 
 .card__description {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
   justify-content: space-between;
   align-items: center;
   background: #fff;
@@ -36,6 +37,9 @@
 .card__like-button {
   width: 21px;
   height: 19px;
+  transition:
+    transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    opacity 0.2s ease;
   background: transparent url("../images/like-inactive.svg") center no-repeat;
   background-size: 21px 18px;
   border: none;
@@ -46,6 +50,7 @@
 .card__like-button:hover {
   opacity: 0.5;
   cursor: pointer;
+  transform: scale(1.1);
 }
 
 .card__delete-button {
@@ -68,4 +73,36 @@
 
 .card__like-button_is-active {
   background: transparent url("../images/like-active.svg") no-repeat;
+  animation: heartPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.card__like-counter {
+  font-size: 16px;
+  color: #000;
+  margin-right: 5px;
+}
+
+@keyframes heartPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4); /* O coração expande */
+  }
+  100% {
+    transform: scale(1); /* Ele volta ao tamanho normal */
+  }
+}
+
+/* Efeito do número dando um micro pulo para cima */
+@keyframes counterJump {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px); /* Sobe um pouquinho */
+  }
+  100% {
+    transform: translateY(0); /* Volta ao lugar */
+  }
 }

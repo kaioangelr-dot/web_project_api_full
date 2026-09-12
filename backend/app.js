@@ -4,7 +4,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const { celebrate, Joi, errors } = require('celebrate');
-const validator = require('validator');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
@@ -15,7 +14,11 @@ const app = express();
 app.use(requestLogger);
 
 const validateURL = (value, helpers) => {
-  if (validator.isURL(value)) {
+  if (
+    /^https?:\/\/(www\.)?[\w-]+(\.[\w-]+)*\.[A-Za-z]{2,}(:\d+)?(\/\S*)?$/.test(
+      value,
+    )
+  ) {
     return value;
   }
   return helpers.error('string.uri');

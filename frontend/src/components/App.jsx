@@ -172,13 +172,13 @@ export default function App() {
     })();
   };
 
-  async function handleCardLike(card) {
+  async function handleCardLike(isLiked, cardId) {
     await api
-      .changeLikeCardStatus(card._id, card.isLiked)
+      .changeLikeCardStatus(cardId, isLiked)
       .then((newCard) => {
         setCards((state) =>
           state.map((currentCard) =>
-            currentCard._id === card._id ? newCard : currentCard,
+            currentCard._id === cardId ? newCard : currentCard,
           ),
         );
       })
