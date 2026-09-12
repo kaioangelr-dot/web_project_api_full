@@ -8,8 +8,10 @@ const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
+app.use(requestLogger);
 
 const validateSignup = celebrate({
   body: Joi.object().keys({
@@ -50,6 +52,8 @@ app.use('/cards', cardsRouter);
 
 /* prettier-ignore */
 app.use((req, res) => res.status(404).send({ message: 'The solicitation was not found' }));
+
+app.use(errorLogger);
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
