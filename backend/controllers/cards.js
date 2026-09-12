@@ -1,49 +1,53 @@
 const Card = require('../models/card');
 
-module.exports.getCards = (req, res) => {
+module.exports.getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send({ data: cards }))
-    .catch(() => res.status(500).send({ message: 'Server error' }));
+    .catch(next);
 };
 
-module.exports.createCard = (req, res) => {
+module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
   const owner = req.user._id;
+
   Card.create({ name, link, owner })
     .then((cardData) => res.status(201).send({ data: cardData }))
     .catch((err) => {
-      // checks if there's an invalid format, it's checked in the /models/card.js
       if (err.name === 'ValidationError') {
-        return res.status(400).send({ message: 'Invalid data' });
+        err.statusCode = 400;
+        err.message = 'Invalid data';
       }
-      return res.status(500).send({ message: 'Card not created' });
+      next(err);
     });
 };
 
-module.exports.deleteCard = (req, res) => {
+module.exports.deleteCard = (req, res, next) => {
   const cardId = req.params.id;
-  Card.findById(cardId).then((card) => {
-    if (card.owner.toString() !== req.user._id) {
-      return res
-        .status(403)
-        .send({ message: 'You have no permission to delete this card' });
-    }
-    return Card.findByIdAndDelete(cardId)
-      .orFail()
-      .then((cardData) => res.send({ data: cardData }))
-      .catch((err) => {
-        if (err.name === 'DocumentNotFoundError') {
-          return res.status(404).send({ message: 'Card not found' });
-        }
-        if (err.name === 'CastError') {
-          return res.status(400).send({ message: 'Owner ID invalid format' });
-        }
-        return res.status(500).send({ message: 'server error' });
-      });
-  });
+
+  Card.findById(cardId)
+    .orFail()
+    .then((card) => {
+      if (card.owner.toString() !== req.user._id) {
+        const err = new Error('You have no permission to delete this card');
+        err.statusCode = 403;
+        throw err;
+      }
+      return Card.findByIdAndDelete(cardId);
+    })
+    .then((cardData) => res.send({ data: cardData }))
+    .catch((err) => {
+      if (err.name === 'DocumentNotFoundError') {
+        err.statusCode = 404;
+        err.message = 'Card not found';
+      } else if (err.name === 'CastError') {
+        err.statusCode = 400;
+        err.message = 'Card ID invalid format';
+      }
+      next(err);
+    });
 };
 
-module.exports.likeCard = (req, res) => {
+module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
@@ -53,16 +57,17 @@ module.exports.likeCard = (req, res) => {
     .then((cardData) => res.send({ data: cardData }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
-        return res.status(404).send({ message: 'Card not found' });
+        err.statusCode = 404;
+        err.message = 'Card not found';
+      } else if (err.name === 'CastError') {
+        err.statusCode = 400;
+        err.message = 'ID invalid format';
       }
-      if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'ID invalid format' });
-      }
-      return res.status(500).send({ message: 'server error' });
+      next(err);
     });
 };
 
-module.exports.dislikeCard = (req, res) => {
+module.exports.dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
@@ -72,11 +77,12 @@ module.exports.dislikeCard = (req, res) => {
     .then((cardData) => res.send({ data: cardData }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
-        return res.status(404).send({ message: 'Card not found' });
+        err.statusCode = 404;
+        err.message = 'Card not found';
+      } else if (err.name === 'CastError') {
+        err.statusCode = 400;
+        err.message = 'ID invalid format';
       }
-      if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'ID invalid format' });
-      }
-      return res.status(500).send({ message: 'server error' });
+      next(err);
     });
 };

@@ -70,21 +70,18 @@ class Api {
   }
 
   getUserLogin(token) {
-    return fetch(
-      `https://se-register-api.en.tripleten-services.com/v1/users/me`,
-      {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    ).then((res) => this._checkResponse(res));
+    }).then((res) => this._checkResponse(res));
   }
 }
 
 export const api = new Api({
-  baseUrl: "https://around-api.pt-br.tripleten-services.com/v1",
+  baseUrl: "http://localhost:3000",
   headers: {
     authorization: "255730f4-b854-443a-b66b-ed3f6dcae23a",
     "Content-Type": "application/json",

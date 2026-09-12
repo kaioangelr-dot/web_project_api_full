@@ -2,6 +2,7 @@ const { PORT = 3000 } = process.env;
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const { celebrate, Joi } = require('celebrate');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
@@ -37,6 +38,7 @@ mongoose
   });
 
 app.use(express.json());
+app.use(cors());
 
 app.post('/signin', validateSignin, login);
 app.post('/signup', validateSignup, createUser);
@@ -48,5 +50,12 @@ app.use('/cards', cardsRouter);
 
 /* prettier-ignore */
 app.use((req, res) => res.status(404).send({ message: 'The solicitation was not found' }));
+
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({
+    message: statusCode === 500 ? 'Server error' : message,
+  });
+});
 
 app.listen(PORT);

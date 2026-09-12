@@ -2,50 +2,44 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const user = require('../models/user');
 
-module.exports.getAllUsers = (req, res) => {
+module.exports.getAllUsers = (req, res, next) => {
   user
     .find({})
     .then((users) => res.send({ data: users }))
-    .catch(() => res.status(500).send({ message: 'Server error' }));
+    .catch(next);
 };
 
-module.exports.getUser = (req, res) => {
+module.exports.getUser = (req, res, next) => {
   user
     .findById(req.params.id)
     .orFail()
     .then((userData) => res.send({ data: userData }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
-        return res.status(404).send({ message: 'User not found' });
+        err.statusCode = 404;
+        err.message = 'User not found';
+      } else if (err.name === 'CastError') {
+        err.statusCode = 400;
+        err.message = 'User ID invalid format';
       }
-      if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'User ID invalid format' });
-      }
-      return res.status(500).send({ message: 'Server error' });
+      next(err);
     });
 };
 
-module.exports.createUser = (req, res) => {
-  /* prettier-ignore */
-  const {
-    name,
-    about,
-    avatar,
-    email,
-    password,
-  } = req.body;
-  /* prettier-ignore */
+module.exports.createUser = (req, res, next) => {
+  const { name, about, avatar, email, password } = req.body;
+
   bcrypt
     .hash(password, 10)
-    .then((hash) => user.create(
-      {
+    .then((hash) =>
+      user.create({
         name,
         about,
         avatar,
         email,
         password: hash,
-      },
-    ))
+      }),
+    )
     .then((userData) => {
       const userObject = userData.toObject();
       delete userObject.password;
@@ -53,18 +47,17 @@ module.exports.createUser = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
-        return res.status(400).send({ message: 'Invalid data' });
+        err.statusCode = 400;
+        err.message = 'Invalid data';
+      } else if (err.code === 11000) {
+        err.statusCode = 409;
+        err.message = 'User with this email already exists';
       }
-      if (err.code === 11000) {
-        return res
-          .status(409)
-          .send({ message: 'User with this email already exists' });
-      }
-      return res.status(500).send({ message: 'Server error' });
+      next(err);
     });
 };
 
-module.exports.updateUser = (req, res) => {
+module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
 
   user
@@ -77,16 +70,17 @@ module.exports.updateUser = (req, res) => {
     .then((userData) => res.send({ data: userData }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
-        return res.status(404).send({ message: 'User not found' });
+        err.statusCode = 404;
+        err.message = 'User not found';
+      } else if (err.name === 'CastError' || err.name === 'ValidationError') {
+        err.statusCode = 400;
+        err.message = 'Invalid data';
       }
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
-        return res.status(400).send({ message: 'Invalid data' });
-      }
-      return res.status(500).send({ message: 'Server error' });
+      next(err);
     });
 };
 
-module.exports.updateAvatar = (req, res) => {
+module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
   user
@@ -99,16 +93,17 @@ module.exports.updateAvatar = (req, res) => {
     .then((userData) => res.send({ data: userData }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
-        return res.status(404).send({ message: 'User not found' });
+        err.statusCode = 404;
+        err.message = 'User not found';
+      } else if (err.name === 'CastError' || err.name === 'ValidationError') {
+        err.statusCode = 400;
+        err.message = 'Invalid data';
       }
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
-        return res.status(400).send({ message: 'Invalid data' });
-      }
-      return res.status(500).send({ message: 'Server error' });
+      next(err);
     });
 };
 
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
   return user
@@ -121,18 +116,21 @@ module.exports.login = (req, res) => {
       res.send({ token });
     })
     .catch((err) => {
-      res.status(401).send({ message: err.message });
+      err.statusCode = 401;
+      next(err);
     });
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
   user
     .findById(req.user._id)
-    .then((userData) => {
-      if (!userData) {
-        return res.status(404).send({ message: 'User not found' });
+    .orFail()
+    .then((userData) => res.send({ data: userData }))
+    .catch((err) => {
+      if (err.name === 'DocumentNotFoundError') {
+        err.statusCode = 404;
+        err.message = 'User not found';
       }
-      return res.send({ data: userData });
-    })
-    .catch(next);
+      next(err);
+    });
 };
