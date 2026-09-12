@@ -3,7 +3,8 @@ const { PORT = 3000 } = process.env;
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { celebrate, Joi } = require('celebrate');
+const { celebrate, Joi, errors } = require('celebrate');
+const validator = require('validator');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
@@ -13,13 +14,20 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const app = express();
 app.use(requestLogger);
 
+const validateURL = (value, helpers) => {
+  if (validator.isURL(value)) {
+    return value;
+  }
+  return helpers.error('string.uri');
+};
+
 const validateSignup = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string(),
+    avatar: Joi.string().custom(validateURL),
   }),
 });
 
@@ -54,6 +62,8 @@ app.use('/cards', cardsRouter);
 app.use((req, res) => res.status(404).send({ message: 'The solicitation was not found' }));
 
 app.use(errorLogger);
+
+app.use(errors());
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
