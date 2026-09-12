@@ -1,4 +1,7 @@
 const Card = require('../models/card');
+const BadRequestError = require('../errors/BadRequestError');
+const NotFoundError = require('../errors/NotFoundError');
+const ForbiddenError = require('../errors/ForbiddenError');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
@@ -14,10 +17,9 @@ module.exports.createCard = (req, res, next) => {
     .then((cardData) => res.status(201).send({ data: cardData }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        err.statusCode = 400;
-        err.message = 'Invalid data';
+        return next(new BadRequestError('Invalid data'));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -28,22 +30,19 @@ module.exports.deleteCard = (req, res, next) => {
     .orFail()
     .then((card) => {
       if (card.owner.toString() !== req.user._id) {
-        const err = new Error('You have no permission to delete this card');
-        err.statusCode = 403;
-        throw err;
+        throw new ForbiddenError('You have no permission to delete this card');
       }
       return Card.findByIdAndDelete(cardId);
     })
     .then((cardData) => res.send({ data: cardData }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
-        err.statusCode = 404;
-        err.message = 'Card not found';
-      } else if (err.name === 'CastError') {
-        err.statusCode = 400;
-        err.message = 'Card ID invalid format';
+        return next(new NotFoundError('Card not found'));
       }
-      next(err);
+      if (err.name === 'CastError') {
+        return next(new BadRequestError('Card ID invalid format'));
+      }
+      return next(err);
     });
 };
 
@@ -57,13 +56,12 @@ module.exports.likeCard = (req, res, next) => {
     .then((cardData) => res.send({ data: cardData }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
-        err.statusCode = 404;
-        err.message = 'Card not found';
-      } else if (err.name === 'CastError') {
-        err.statusCode = 400;
-        err.message = 'ID invalid format';
+        return next(new NotFoundError('Card not found'));
       }
-      next(err);
+      if (err.name === 'CastError') {
+        return next(new BadRequestError('ID invalid format'));
+      }
+      return next(err);
     });
 };
 
@@ -77,12 +75,11 @@ module.exports.dislikeCard = (req, res, next) => {
     .then((cardData) => res.send({ data: cardData }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
-        err.statusCode = 404;
-        err.message = 'Card not found';
-      } else if (err.name === 'CastError') {
-        err.statusCode = 400;
-        err.message = 'ID invalid format';
+        return next(new NotFoundError('Card not found'));
       }
-      next(err);
+      if (err.name === 'CastError') {
+        return next(new BadRequestError('ID invalid format'));
+      }
+      return next(err);
     });
 };

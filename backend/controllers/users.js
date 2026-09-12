@@ -1,6 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const user = require('../models/user');
+const BadRequestError = require('../errors/BadRequestError');
+const NotFoundError = require('../errors/NotFoundError');
+const UnauthorizedError = require('../errors/UnauthorizedError');
+const ConflictError = require('../errors/ConflictError');
 
 module.exports.getAllUsers = (req, res, next) => {
   user
@@ -16,30 +20,34 @@ module.exports.getUser = (req, res, next) => {
     .then((userData) => res.send({ data: userData }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
-        err.statusCode = 404;
-        err.message = 'User not found';
-      } else if (err.name === 'CastError') {
-        err.statusCode = 400;
-        err.message = 'User ID invalid format';
+        return next(new NotFoundError('User not found'));
       }
-      next(err);
+      if (err.name === 'CastError') {
+        return next(new BadRequestError('User ID invalid format'));
+      }
+      return next(err);
     });
 };
 
 module.exports.createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
-
+  /* prettier-ignore */
+  const {
+    name,
+    about,
+    avatar,
+    email,
+    password,
+  } = req.body;
+  /* prettier-ignore */
   bcrypt
     .hash(password, 10)
-    .then((hash) =>
-      user.create({
-        name,
-        about,
-        avatar,
-        email,
-        password: hash,
-      }),
-    )
+    .then((hash) => user.create({
+      name,
+      about,
+      avatar,
+      email,
+      password: hash,
+    }))
     .then((userData) => {
       const userObject = userData.toObject();
       delete userObject.password;
@@ -47,13 +55,12 @@ module.exports.createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
-        err.statusCode = 400;
-        err.message = 'Invalid data';
-      } else if (err.code === 11000) {
-        err.statusCode = 409;
-        err.message = 'User with this email already exists';
+        return next(new BadRequestError('Invalid data'));
       }
-      next(err);
+      if (err.code === 11000) {
+        return next(new ConflictError('User with this email already exists'));
+      }
+      return next(err);
     });
 };
 
@@ -70,13 +77,12 @@ module.exports.updateUser = (req, res, next) => {
     .then((userData) => res.send({ data: userData }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
-        err.statusCode = 404;
-        err.message = 'User not found';
-      } else if (err.name === 'CastError' || err.name === 'ValidationError') {
-        err.statusCode = 400;
-        err.message = 'Invalid data';
+        return next(new NotFoundError('User not found'));
       }
-      next(err);
+      if (err.name === 'CastError' || err.name === 'ValidationError') {
+        return next(new BadRequestError('Invalid data'));
+      }
+      return next(err);
     });
 };
 
@@ -93,13 +99,12 @@ module.exports.updateAvatar = (req, res, next) => {
     .then((userData) => res.send({ data: userData }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
-        err.statusCode = 404;
-        err.message = 'User not found';
-      } else if (err.name === 'CastError' || err.name === 'ValidationError') {
-        err.statusCode = 400;
-        err.message = 'Invalid data';
+        return next(new NotFoundError('User not found'));
       }
-      next(err);
+      if (err.name === 'CastError' || err.name === 'ValidationError') {
+        return next(new BadRequestError('Invalid data'));
+      }
+      return next(err);
     });
 };
 
@@ -115,9 +120,8 @@ module.exports.login = (req, res, next) => {
 
       res.send({ token });
     })
-    .catch((err) => {
-      err.statusCode = 401;
-      next(err);
+    .catch(() => {
+      next(new UnauthorizedError('Incorrect email or password'));
     });
 };
 
@@ -128,9 +132,8 @@ module.exports.getCurrentUser = (req, res, next) => {
     .then((userData) => res.send({ data: userData }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
-        err.statusCode = 404;
-        err.message = 'User not found';
+        return next(new NotFoundError('User not found'));
       }
-      next(err);
+      return next(err);
     });
 };
