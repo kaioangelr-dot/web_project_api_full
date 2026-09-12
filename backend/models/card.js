@@ -11,11 +11,10 @@ const cardSchema = mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      /* prettier-ignore */
-      validator: (v) => /^https?:\/\/(www\.)?[\w-]+(\.[\w-]+)*\.com(\/\S*)?$/.test(v),
-      /* It starts with hhtp//: or https//:, does not allow consecutive dots, any space, or
-      any other caracter than dots, digits, hifens and letters. It ends with either
-      .com, .com/ or .com/'infinite caracters' */
+      validator: (v) =>
+        /^https?:\/\/(www\.)?[\w-]+(\.[\w-]+)*\.[A-Za-z]{2,}(:\d+)?(\/\S*)?$/.test(
+          v,
+        ),
     },
   },
   owner: {

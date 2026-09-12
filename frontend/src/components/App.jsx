@@ -11,7 +11,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import { api } from "./../utils/api";
+import { Api } from "./../utils/api";
 import { useState, useEffect } from "react";
 
 import useValidation from "../hooks/useValidation";
@@ -42,6 +42,16 @@ export default function App() {
   const location = useLocation();
 
   const navigate = useNavigate();
+
+  const jwt = getToken();
+
+  const api = new Api({
+    baseUrl: "http://localhost:3000",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${jwt}`,
+    },
+  });
 
   //----------------------------------------------- close and open popup --------------------------------------------------------
   useEffect(() => {
@@ -80,7 +90,7 @@ export default function App() {
   }
 
   //------------------------------------------------------- api calls -------------------------------------------------------------
-  const handleGetUserData = (token) => {
+  const handleGetUserData = () => {
     setIsLoading(true);
 
     api
@@ -91,9 +101,9 @@ export default function App() {
       .catch((error) => console.error(error));
 
     api
-      .getUserLogin(token)
+      .getUserLogin()
       .then((data) => {
-        setEmail(data.data.email);
+        setEmail(data.email);
         navigate("/");
       })
       .catch((error) => console.error(error))
@@ -105,20 +115,18 @@ export default function App() {
     api
       .getInitialCards()
       .then((data) => {
-        setCards(data);
+        setCards([...data].reverse());
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    const jwt = getToken();
-
     if (!jwt) {
       return console.log("no token found");
     }
 
     (async () => {
-      await handleGetUserData(jwt);
+      await handleGetUserData();
     })();
   }, []);
 
@@ -215,7 +223,7 @@ export default function App() {
       .signin(email, password)
       .then((data) => {
         setToken(data.token);
-        handleGetUserData(data.token);
+        handleGetUserData();
         const redirectPath = location.state?.from?.pathname || "/";
         navigate(redirectPath);
       })

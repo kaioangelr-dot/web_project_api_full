@@ -1,12 +1,15 @@
-class Api {
+export class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl;
     this._headers = options.headers;
+    this._token = options.token;
   }
 
   _checkResponse(res) {
     if (res.ok) {
-      return res.json();
+      return res.json().then((data) => {
+        return data && data.data !== undefined ? data.data : data;
+      });
     }
     return Promise.reject(`Error: ${res.status}`);
   }
@@ -69,21 +72,12 @@ class Api {
     }).then((res) => this._checkResponse(res));
   }
 
-  getUserLogin(token) {
+  getUserLogin() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
+        ...this._headers,
         Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     }).then((res) => this._checkResponse(res));
   }
 }
-
-export const api = new Api({
-  baseUrl: "http://localhost:3000",
-  headers: {
-    authorization: "255730f4-b854-443a-b66b-ed3f6dcae23a",
-    "Content-Type": "application/json",
-  },
-});
