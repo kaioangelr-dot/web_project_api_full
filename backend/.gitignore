@@ -3,16 +3,16 @@ logs
 *.log
 npm-debug.log*
 
-# Diretório de dependências
+# Dependency directory
 node_modules
 
-# Diretório de cache npm opcional
+# Optional npm cache directory
 .npm
 
-# Arquivos do sistema e pastas de configurações IDE
+# System files and IDE configuration folders
 .DS_Store
 .idea
 .vscode
 
-# Arquivos de ambiente
+# Environment variables file
 .env
