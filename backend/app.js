@@ -43,7 +43,9 @@ const validateSignin = celebrate({
 });
 
 mongoose
-  .connect('mongodb://localhost:27017/aroundb')
+  .connect(
+    'mongodb+srv://<db_username>:ldrpLIRXGj6Q58Os@cluster0.rgeploi.mongodb.net/?appName=Cluster0',
+  )
   .then(() => {
     console.log('Connected to MongoDB');
   })
