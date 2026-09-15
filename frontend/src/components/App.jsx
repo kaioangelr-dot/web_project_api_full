@@ -46,7 +46,7 @@ export default function App() {
   const jwt = getToken();
 
   const api = new Api({
-    baseUrl: "http://localhost:3000",
+    baseUrl: "https://api.around-us.chickenkiller.com",
     headers: {
       "Content-Type": "application/json",
       authorization: `Bearer ${jwt}`,
