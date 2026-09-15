@@ -44,7 +44,7 @@ export default function App() {
   const navigate = useNavigate();
 
   const api = new Api({
-    baseUrl: process.env.VITE_API_URL,
+    baseUrl: import.meta.env.VITE_API_URL,
     getAuthToken: () => getToken(),
   });
 
