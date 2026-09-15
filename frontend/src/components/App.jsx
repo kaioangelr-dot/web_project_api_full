@@ -43,14 +43,9 @@ export default function App() {
 
   const navigate = useNavigate();
 
-  const jwt = getToken();
-
   const api = new Api({
-    baseUrl: "https://api.around-us.chickenkiller.com",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${jwt}`,
-    },
+    baseUrl: "http://localhost:3000",
+    getAuthToken: () => getToken(),
   });
 
   //----------------------------------------------- close and open popup --------------------------------------------------------
@@ -91,40 +86,26 @@ export default function App() {
 
   //------------------------------------------------------- api calls -------------------------------------------------------------
   const handleGetUserData = () => {
-    setIsLoading(true);
+    const jwt = getToken();
 
-    api
-      .getUserInfo()
-      .then((data) => {
-        setCurrentUser(data);
-      })
-      .catch((error) => console.error(error));
-
-    api
-      .getUserLogin()
-      .then((data) => {
-        setEmail(data.email);
-        navigate("/");
-      })
-      .catch((error) => console.error(error))
-      .finally(() => {
-        setIsLoading(false);
-        setIsLoggedIn(true);
-      });
-
-    api
-      .getInitialCards()
-      .then((data) => {
-        setCards([...data].reverse());
-      })
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
     if (!jwt) {
       return console.log("no token found");
     }
 
+    setIsLoading(true);
+
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, initialCards]) => {
+        setCurrentUser(userData);
+        setEmail(userData.email);
+        setCards([...initialCards].reverse());
+        setIsLoggedIn(true);
+      })
+      .catch((error) => console.error("error:", error))
+      .finally(() => setIsLoading(false));
+  };
+
+  useEffect(() => {
     (async () => {
       await handleGetUserData();
     })();

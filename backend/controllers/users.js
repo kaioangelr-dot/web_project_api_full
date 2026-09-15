@@ -115,9 +115,9 @@ module.exports.login = (req, res, next) => {
 
   return user
     .findUserByCredentials(email, password)
-    .then(() => {
+    .then((userData) => {
       const token = jwt.sign(
-        { _id: user._id },
+        { _id: userData._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'secret-key',
         {
           expiresIn: '7d',
