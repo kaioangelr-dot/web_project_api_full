@@ -44,7 +44,7 @@ export default function App() {
   const navigate = useNavigate();
 
   const api = new Api({
-    baseUrl: "http://localhost:3000",
+    baseUrl: "api.around-us.chickenkiller.com",
     getAuthToken: () => getToken(),
   });
 
