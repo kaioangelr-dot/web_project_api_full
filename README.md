@@ -193,7 +193,7 @@ web_project_api_full
 
 ```
 
-## Domínios do Servidor
+## Server Domain
 
 - **API:** [http://api.around-us.chickenkiller.com](http://api.around-us.chickenkiller.com)
 - **Frontend:** [http://around-us.chickenkiller.com](http://around-us.chickenkiller.com)
