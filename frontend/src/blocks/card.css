@@ -69,6 +69,7 @@
 
 .card__delete-button:hover {
   opacity: 0.6;
+  scale: 1.1;
 }
 
 .card__like-button_is-active {
