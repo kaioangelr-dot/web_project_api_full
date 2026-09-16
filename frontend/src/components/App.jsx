@@ -52,11 +52,12 @@ export default function App() {
   }
 
   useEffect(() => {
-    const theme = getTheme();
-    const isThemeLight = theme === true || theme === "true";
+    const isThemeLight = getTheme() === "true";
+
     if (isThemeLight) {
       return setIsLight(isThemeLight);
     }
+
     return;
   }, []);
   //----------------------------------------------- close and open popup --------------------------------------------------------
