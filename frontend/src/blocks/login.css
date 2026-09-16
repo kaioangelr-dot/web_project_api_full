@@ -9,7 +9,7 @@
 
 .login__title {
   margin: 0 0 50px;
-  color: white;
+  color: var(--text-color);
   font-weight: 900;
   font-size: 24px;
   line-height: 1;
@@ -29,10 +29,9 @@
 }
 
 .login__input {
-  background-color: #000;
-  color: white;
+  background-color: transparent;
   border: none;
-  border-bottom: 2px solid #cccccc;
+  border-bottom: 2px solid var(--input-color);
   width: 100%;
   height: 27px;
   padding-bottom: 13px;
@@ -40,7 +39,7 @@
 }
 
 .login__input::placeholder {
-  color: #cccccc;
+  color: var(--hover-btn);
 }
 
 .login__button {
@@ -48,15 +47,17 @@
   width: 30%;
   height: 50px;
   font-size: 18px;
+  background-color: var(--second-background-color);
+  color: var(--second-text-color);
 }
 
 .login__button:hover {
-  background-color: #cccccc;
+  background-color: var(--hover-btn);
   cursor: pointer;
 }
 
 .login__signup {
-  color: white;
+  color: var(--text-color);
   margin: 15px 0 0;
   font-size: 14px;
   line-height: 1;
@@ -72,7 +73,6 @@
 .signup__link {
   text-decoration: none;
   margin: 0;
-  color: white;
 }
 
 .signup__link:hover {

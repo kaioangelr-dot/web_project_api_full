@@ -46,11 +46,11 @@ export default function App() {
   //----------------------------------------------- theme --------------------------------------------------------
   const [light, isLight] = useState(true);
 
-  useEffect(() => {
+  /*  useEffect(() => {
     const theme = getTheme();
 
     if (theme) isLight(theme);
-  });
+  }); */
   //----------------------------------------------- close and open popup --------------------------------------------------------
   useEffect(() => {
     if (!popup) return;

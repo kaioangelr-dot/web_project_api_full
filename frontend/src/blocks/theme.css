@@ -1,15 +1,23 @@
 :root {
   --background-color: black;
+  --second-background-color: white;
   --text-color: white;
+  --second-text-color: black;
   --border-color: white;
   --add-btn: url("../images/add-icon.svg");
   --edit-btn: url("../images/edit-icon.svg");
+  --hover-btn: #ccc;
+  --input-color: #ccc;
 }
 
 [data-theme="light"] {
   --background-color: white;
+  --second-background-color: black;
   --text-color: black;
+  --second-text-color: white;
   --border-color: black;
   --add-btn: url("../images/add-btn-black.svg");
   --edit-btn: url("../images/edit-btn-black.svg");
+  --hover-btn: #333;
+  --input-color: #333;
 }
