@@ -18,13 +18,9 @@ const userSchema = mongoose.Schema({
   avatar: {
     type: String,
     validate: {
-      validator: (v) =>
-        /^https?:\/\/(www\.)?[\w-]+(\.[\w-]+)*\.[A-Za-z]{2,}(:\d+)?(\/\S*)?$/.test(
-          v,
-        ),
+      validator: (v) => /^https?:\/\/(www\.)?[\w-]+(\.[\w-]+)*\.[A-Za-z]{2,}(:\d+)?(\/\S*)?$/.test(v),
     },
-    default:
-      'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg',
+    default: 'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg',
   },
   email: {
     type: String,
@@ -43,10 +39,7 @@ const userSchema = mongoose.Schema({
   },
 });
 
-userSchema.statics.findUserByCredentials = function findUserByCredentials(
-  email,
-  password,
-) {
+userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
   return this.findOne({ email })
     .select('+password')
     .then((user) => {

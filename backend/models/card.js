@@ -11,7 +11,6 @@ const cardSchema = mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      /* prettier-ignore */
       validator: (v) => /^https?:\/\/(www\.)?[\w-]+(\.[\w-]+)*\.[A-Za-z]{2,}(:\d+)?(\/\S*)?$/.test(v),
     },
   },
