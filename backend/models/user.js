@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema({
     type: String,
     minlength: 2,
     maxlength: 30,
-    default: 'Jacques Cousteau',
+    default: 'New User',
   },
   about: {
     type: String,
