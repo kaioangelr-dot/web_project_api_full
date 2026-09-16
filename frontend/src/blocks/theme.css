@@ -9,6 +9,7 @@
   --hover-btn: #ccc;
   --input-color: #ccc;
   --theme-btn: url("../images/light-mode.svg");
+  --spinner: white;
 }
 
 [data-theme="light"] {
@@ -22,4 +23,5 @@
   --hover-btn: #333;
   --input-color: #333;
   --theme-btn: url("../images/dark-mode.svg");
+  --spinner: black;
 }
