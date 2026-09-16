@@ -1,10 +1,9 @@
 import { useState, useContext } from "react";
-import { CurrentUserContext } from "../../../../../../contexts/CurrentUserContext";
-import useValidation from "../../../../../../hooks/useValidation";
+import { CurrentUserContext } from "../../../../../contexts/CurrentUserContext";
+import useValidation from "../../../../../hooks/useValidation";
 
 export default function EditProfile() {
-  const { currentUser, handleUpdateUser, isLoading } =
-    useContext(CurrentUserContext);
+  const { currentUser, handleUpdateUser, isLoading } = useContext(CurrentUserContext);
 
   const [name, setName] = useState(currentUser.name);
   const [description, setDescription] = useState(currentUser.about);
@@ -30,12 +29,7 @@ export default function EditProfile() {
   };
 
   return (
-    <form
-      className="popup__form"
-      id="edit-profile-form"
-      onSubmit={handleSubmit}
-      noValidate
-    >
+    <form className="popup__form" id="edit-profile-form" onSubmit={handleSubmit} noValidate>
       <label className="popup__field">
         <input
           className={`popup__input popup__input_type_name ${nameError && "popup__input_type_error"}`}
@@ -49,10 +43,7 @@ export default function EditProfile() {
           onChange={handleNameChange}
           required
         />
-        <span
-          id="name-input-error"
-          className={`popup__input-error ${!isValid && "popup__input-error_active"}`}
-        >
+        <span id="name-input-error" className={`popup__input-error ${!isValid && "popup__input-error_active"}`}>
           {nameError}
         </span>
       </label>
@@ -69,18 +60,11 @@ export default function EditProfile() {
           onChange={handleDescriptionChange}
           required
         />
-        <span
-          id="description-input-error"
-          className={`popup__input-error ${!isValid && "popup__input-error_active"}`}
-        >
+        <span id="description-input-error" className={`popup__input-error ${!isValid && "popup__input-error_active"}`}>
           {textError}
         </span>
       </label>
-      <button
-        className="button popup__button"
-        type="submit"
-        disabled={!isValid}
-      >
+      <button className="button popup__button" type="submit" disabled={!isValid}>
         {isLoading ? "Salvando..." : "Salvar"}
       </button>
     </form>

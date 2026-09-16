@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import Popup from "./components/Popup/Popup";
 
-import NewCard from "./components/Popup/components/NewCard/NewCard";
-import EditProfile from "./components/Popup/components/EditProfile/EditProfile";
-import EditAvatar from "./components/Popup/components/EditAvatar/EditAvatar";
+import NewCard from "./components/Popup/components/NewCard";
+import EditProfile from "./components/Popup/components/EditProfile";
+import EditAvatar from "./components/Popup/components/EditAvatar";
 import Card from "./components/Card/Card";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 

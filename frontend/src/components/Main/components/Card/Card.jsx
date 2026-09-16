@@ -1,5 +1,5 @@
-import ImagePopup from "../Popup/components/ImagePopup/ImagePopup";
-import ConfirmationPopup from "../Popup/components/PopupWithConfirmation/PopupWithConfirmation";
+import ImagePopup from "../Popup/components/ImagePopup";
+import ConfirmationPopup from "../Popup/components/PopupWithConfirmation";
 
 export default function Card(props) {
   const { name, link, likes, owner, _id: cardId } = props.card;
@@ -15,9 +15,7 @@ export default function Card(props) {
     children: <ConfirmationPopup onDelete={handleDeleteClick} />,
   };
 
-  const cardLikeButtonClassName = `card__like-button ${
-    isLiked ? "card__like-button_is-active" : ""
-  }`;
+  const cardLikeButtonClassName = `card__like-button ${isLiked ? "card__like-button_is-active" : ""}`;
 
   function handleLikeClick() {
     onCardLike(isLiked, cardId);
@@ -30,12 +28,7 @@ export default function Card(props) {
 
   return (
     <li className="card">
-      <img
-        className="card__image"
-        src={link}
-        alt=""
-        onClick={() => onOpenPopup(imageComponent)}
-      />
+      <img className="card__image" src={link} alt="" onClick={() => onOpenPopup(imageComponent)} />
       {/* add the delete btn if the current user is the card owner */}
       {currentUserId === owner && (
         <button
@@ -47,9 +40,7 @@ export default function Card(props) {
       )}
       <div className="card__description">
         <h2 className="card__title">{name}</h2>
-        <span className="card__like-counter">
-          {likes.length > 0 ? likes.length : ""}
-        </span>
+        <span className="card__like-counter">{likes.length > 0 ? likes.length : ""}</span>
         <button
           aria-label="Like Card"
           className={cardLikeButtonClassName}

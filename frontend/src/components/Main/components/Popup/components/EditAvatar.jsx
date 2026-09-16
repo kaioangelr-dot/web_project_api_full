@@ -1,6 +1,6 @@
 import { useRef, useContext } from "react";
-import { CurrentUserContext } from "../../../../../../contexts/CurrentUserContext";
-import useValidation from "../../../../../../hooks/useValidation";
+import { CurrentUserContext } from "../../../../../contexts/CurrentUserContext";
+import useValidation from "../../../../../hooks/useValidation";
 
 export default function EditAvatar() {
   const inputRef = useRef();
@@ -17,12 +17,7 @@ export default function EditAvatar() {
   }
 
   return (
-    <form
-      className="popup__form"
-      id="edit-profile-form"
-      onSubmit={handleSubmit}
-      noValidate
-    >
+    <form className="popup__form" id="edit-profile-form" onSubmit={handleSubmit} noValidate>
       <label className="popup__field">
         <input
           className={`popup__input ${linkError && "popup__input_type_error"}`}
@@ -34,18 +29,11 @@ export default function EditAvatar() {
           type="url"
           onChange={handleValidation}
         />
-        <span
-          id="link-avatar-input-error"
-          className={`popup__input-error ${!isValid && "popup__input-error_active"}`}
-        >
+        <span id="link-avatar-input-error" className={`popup__input-error ${!isValid && "popup__input-error_active"}`}>
           {linkError}
         </span>
       </label>
-      <button
-        className="button popup__button"
-        type="submit"
-        disabled={!isValid}
-      >
+      <button className="button popup__button" type="submit" disabled={!isValid}>
         {isLoading ? "Salvando..." : "Salvar"}
       </button>
     </form>

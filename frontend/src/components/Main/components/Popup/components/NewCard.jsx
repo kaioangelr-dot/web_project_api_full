@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
-import { CurrentUserContext } from "../../../../../../contexts/CurrentUserContext";
-import useValidation from "../../../../../../hooks/useValidation";
+import { CurrentUserContext } from "../../../../../contexts/CurrentUserContext";
+import useValidation from "../../../../../hooks/useValidation";
 
 export default function NewCard() {
   const { handleAddPlaceSubmit, isLoading } = useContext(CurrentUserContext);
@@ -25,13 +25,7 @@ export default function NewCard() {
     handleValidation(evt);
   };
   return (
-    <form
-      className="popup__form"
-      name="card-form"
-      id="new-card-form"
-      onSubmit={handleSubmit}
-      noValidate
-    >
+    <form className="popup__form" name="card-form" id="new-card-form" onSubmit={handleSubmit} noValidate>
       <label className="popup__field">
         <input
           className={`popup__input popup__input_type_card-name ${nameError && "popup__input_type_error"}`}
@@ -45,10 +39,7 @@ export default function NewCard() {
           value={name}
           onChange={handleChangeName}
         />
-        <span
-          id="place-name-input-error"
-          className={`popup__input-error ${!isValid && "popup__input-error_active"} `}
-        >
+        <span id="place-name-input-error" className={`popup__input-error ${!isValid && "popup__input-error_active"} `}>
           {nameError}
         </span>
       </label>
@@ -63,19 +54,12 @@ export default function NewCard() {
           value={link}
           onChange={handleChangeLink}
         />
-        <span
-          id="link-input-error"
-          className={`popup__input-error ${!isValid && "popup__input-error_active"} `}
-        >
+        <span id="link-input-error" className={`popup__input-error ${!isValid && "popup__input-error_active"} `}>
           {linkError}
         </span>
       </label>
 
-      <button
-        className="button popup__button"
-        type="submit"
-        disabled={!isValid}
-      >
+      <button className="button popup__button" type="submit" disabled={!isValid}>
         {isLoading ? "Criando..." : "Criar"}
       </button>
     </form>
