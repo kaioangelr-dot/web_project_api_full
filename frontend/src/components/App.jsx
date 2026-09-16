@@ -43,14 +43,22 @@ export default function App() {
     getAuthToken: () => getToken(),
   });
 
-  //----------------------------------------------- theme --------------------------------------------------------
-  const [light, isLight] = useState(true);
+  //----------------------------------------------- theme ----------------------------------------------------------------------
+  const [isLight, setIsLight] = useState(false);
 
-  /*  useEffect(() => {
+  function handleTheme(theme) {
+    setTheme(!theme);
+    setIsLight(!theme);
+  }
+
+  useEffect(() => {
     const theme = getTheme();
-
-    if (theme) isLight(theme);
-  }); */
+    const isThemeLight = theme === true || theme === "true";
+    if (isThemeLight) {
+      return setIsLight(isThemeLight);
+    }
+    return;
+  }, []);
   //----------------------------------------------- close and open popup --------------------------------------------------------
   useEffect(() => {
     if (!popup) return;
@@ -213,7 +221,7 @@ export default function App() {
 
   //------------------------------------------------------- markup -------------------------------------------------------------
   return (
-    <div className="page__content" data-theme={light ? "light" : ""}>
+    <div className="page__content" data-theme={isLight ? "light" : "dark"}>
       {isLoading && !isLoggedIn ? (
         <Spinner isLoading={isLoading} />
       ) : (
@@ -226,7 +234,13 @@ export default function App() {
             handleAddPlaceSubmit,
           }}
         >
-          <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} email={email} light={light} />
+          <Header
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+            email={email}
+            isLight={isLight}
+            setTheme={handleTheme}
+          />
 
           <Routes>
             <Route

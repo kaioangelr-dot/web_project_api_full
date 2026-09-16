@@ -8,6 +8,7 @@
   --edit-btn: url("../images/edit-icon.svg");
   --hover-btn: #ccc;
   --input-color: #ccc;
+  --theme-btn: url("../images/light-mode.svg");
 }
 
 [data-theme="light"] {
@@ -20,4 +21,5 @@
   --edit-btn: url("../images/edit-btn-black.svg");
   --hover-btn: #333;
   --input-color: #333;
+  --theme-btn: url("../images/dark-mode.svg");
 }

@@ -26,6 +26,20 @@
 .header__container {
   display: flex;
   gap: 0 56px;
+  align-items: center;
+}
+
+.header__switch-theme {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent var(--theme-btn) center no-repeat;
+}
+
+.header__switch-theme:hover {
+  scale: 1.2;
+  opacity: 0.5;
+  cursor: pointer;
 }
 
 .header__title-email {
@@ -53,7 +67,6 @@
   }
 
   .header__options {
-    display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows:
       auto
