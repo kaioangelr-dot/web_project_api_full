@@ -195,5 +195,5 @@ web_project_api_full
 
 ## Server Domain
 
-- **API:** [http://api.around-us.chickenkiller.com](http://api.around-us.chickenkiller.com)
-- **Frontend:** [http://around-us.chickenkiller.com](http://around-us.chickenkiller.com)
+- **API:** https://web-project-api-full-t9w5.onrender.com/
+- **Frontend:** https://web-project-api-full-topaz.vercel.app/
