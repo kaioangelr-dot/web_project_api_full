@@ -18,10 +18,10 @@ const userSchema = mongoose.Schema({
   avatar: {
     type: String,
     validate: {
-      validator: (v) => /^https?:\/\/(www\.)?[\w-]+(\.[\w-]+)*\.com(\/\S*)?$/.test(v), // prettier-ignore
-      /* It starts with hhtp//: or https//:, does not allow consecutive dots, any space, and
-      before the first .com it does not allow any other caracters than dots, digits,
-      hifens and letters. It ends with either .com, .com/ or .com/'infinite caracters' */
+      validator: (v) =>
+        /^https?:\/\/(www\.)?[\w-]+(\.[\w-]+)*\.[A-Za-z]{2,}(:\d+)?(\/\S*)?$/.test(
+          v,
+        ),
     },
     default:
       'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg',
