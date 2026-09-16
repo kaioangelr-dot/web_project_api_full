@@ -20,7 +20,6 @@ const userSchema = mongoose.Schema({
     validate: {
       validator: (v) => /^https?:\/\/(www\.)?[\w-]+(\.[\w-]+)*\.[A-Za-z]{2,}(:\d+)?(\/\S*)?$/.test(v),
     },
-    default: 'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg',
   },
   email: {
     type: String,

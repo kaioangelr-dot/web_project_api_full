@@ -7,17 +7,12 @@ import EditAvatar from "./components/Popup/components/EditAvatar/EditAvatar";
 import Card from "./components/Card/Card";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
+import placeholder from "../../images/placeholder.jpg";
+
 export default function Main(props) {
   const { currentUser } = useContext(CurrentUserContext);
 
-  const {
-    handleOpenPopup,
-    handleClosePopup,
-    popup,
-    cards,
-    handleCardLike,
-    handleCardDelete,
-  } = props;
+  const { handleOpenPopup, handleClosePopup, popup, cards, handleCardLike, handleCardDelete } = props;
 
   const newCardPopup = {
     title: "Novo Local",
@@ -35,15 +30,8 @@ export default function Main(props) {
   return (
     <main className="content">
       <section className="profile page__section">
-        <div
-          className="profile__image-container"
-          onClick={() => handleOpenPopup(editEditAvatar)}
-        >
-          <img
-            className="profile__image"
-            src={currentUser.avatar}
-            alt="Avatar"
-          />
+        <div className="profile__image-container" onClick={() => handleOpenPopup(editEditAvatar)}>
+          <img className="profile__image" src={!currentUser.avatar ? placeholder : currentUser.avatar} alt="Avatar" />
         </div>
         <div className="profile__info">
           <h1 className="profile__title">{currentUser.name}</h1>
