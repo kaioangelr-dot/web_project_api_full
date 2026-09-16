@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { PORT = 3000 } = process.env;
 
 const express = require('express');
@@ -9,10 +11,8 @@ const cardsRouter = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-require('dotenv').config();
 
 const app = express();
-app.use(requestLogger);
 
 const validateURL = (value, helpers) => {
   if (
@@ -42,19 +42,21 @@ const validateSignin = celebrate({
   }),
 });
 
+app.use(requestLogger);
+app.use(express.json());
+app.use(cors());
+
 mongoose
-  .connect(
-    'mongodb+srv://kaioangelr_db_user:ldrpLIRXGj6Q5%3FFOs@cluster0.rgeploi.mongodb.net/aroundb?appName=Cluster0',
-  )
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log('Connected to MongoDB');
   })
   .catch((err) => {
     console.log('Error connecting to MongoDB:', err);
   });
-
-app.use(express.json());
-app.use(cors());
 
 app.get('/crash-test', () => {
   setTimeout(() => {
