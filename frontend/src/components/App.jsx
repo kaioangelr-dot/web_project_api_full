@@ -3,13 +3,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
-import {
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 
 import { Api } from "./../utils/api";
 import { useState, useEffect } from "react";
@@ -22,6 +16,7 @@ import * as auth from "../utils/auth";
 import IsAuthorized from "./InfoToolTip/components/IsAuthorized";
 import IsNotAuthorized from "./InfoToolTip/components/IsNotAuthorized";
 import { setToken, getToken } from "../utils/token";
+import { setTheme, getTheme } from "../utils/theme";
 import Spinner from "./spinner/spinner";
 
 export default function App() {
@@ -48,6 +43,14 @@ export default function App() {
     getAuthToken: () => getToken(),
   });
 
+  //----------------------------------------------- theme --------------------------------------------------------
+  const [light, isLight] = useState(true);
+
+  useEffect(() => {
+    const theme = getTheme();
+
+    if (theme) isLight(theme);
+  });
   //----------------------------------------------- close and open popup --------------------------------------------------------
   useEffect(() => {
     if (!popup) return;
@@ -157,11 +160,7 @@ export default function App() {
     await api
       .changeLikeCardStatus(cardId, isLiked)
       .then((newCard) => {
-        setCards((state) =>
-          state.map((currentCard) =>
-            currentCard._id === cardId ? newCard : currentCard,
-          ),
-        );
+        setCards((state) => state.map((currentCard) => (currentCard._id === cardId ? newCard : currentCard)));
       })
       .catch((error) => console.error(error));
   }
@@ -170,9 +169,7 @@ export default function App() {
     await api
       .deleteCard(card._id)
       .then(() => {
-        setCards((state) =>
-          state.filter((currentCard) => currentCard._id !== card._id),
-        );
+        setCards((state) => state.filter((currentCard) => currentCard._id !== card._id));
       })
       .catch((error) => console.error(error));
   }
@@ -216,7 +213,7 @@ export default function App() {
 
   //------------------------------------------------------- markup -------------------------------------------------------------
   return (
-    <div className="page__content">
+    <div className="page__content" data-theme={light ? "light" : ""}>
       {isLoading && !isLoggedIn ? (
         <Spinner isLoading={isLoading} />
       ) : (
@@ -229,11 +226,7 @@ export default function App() {
             handleAddPlaceSubmit,
           }}
         >
-          <Header
-            isLoggedIn={isLoggedIn}
-            setIsLoggedIn={setIsLoggedIn}
-            email={email}
-          />
+          <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} email={email} light={light} />
 
           <Routes>
             <Route
@@ -256,11 +249,7 @@ export default function App() {
               path="/signin"
               element={
                 <ProtectedRoute anonymous isLoggedIn={isLoggedIn}>
-                  <Login
-                    popup={popup}
-                    handleClosePopup={handleClosePopup}
-                    handleSignin={handleSignin}
-                  />
+                  <Login popup={popup} handleClosePopup={handleClosePopup} handleSignin={handleSignin} />
                 </ProtectedRoute>
               }
             />
@@ -269,21 +258,12 @@ export default function App() {
               path="/signup"
               element={
                 <ProtectedRoute anonymous isLoggedIn={isLoggedIn}>
-                  <Register
-                    popup={popup}
-                    handleClosePopup={handleClosePopup}
-                    handleSignup={handleSignup}
-                  />
+                  <Register popup={popup} handleClosePopup={handleClosePopup} handleSignup={handleSignup} />
                 </ProtectedRoute>
               }
             />
 
-            <Route
-              path="*"
-              element={
-                isLoggedIn ? <Navigate to="/" /> : <Navigate to="/signin" />
-              }
-            />
+            <Route path="*" element={isLoggedIn ? <Navigate to="/" /> : <Navigate to="/signin" />} />
           </Routes>
 
           {isLoggedIn && <Footer />}

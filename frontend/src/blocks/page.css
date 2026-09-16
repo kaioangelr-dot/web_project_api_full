@@ -1,15 +1,18 @@
+* {
+  color: var(--text-color);
+}
 .page {
-  background: #000;
+  background-color: var(--background-color);
 }
 
 .page__content {
   padding: 0 40px;
-  background-color: black;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;
   flex-direction: column;
+  background-color: var(--background-color);
 }
 
 .page__section {

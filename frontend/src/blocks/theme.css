@@ -1,0 +1,15 @@
+:root {
+  --background-color: black;
+  --text-color: white;
+  --border-color: white;
+  --add-btn: url("../images/add-icon.svg");
+  --edit-btn: url("../images/edit-icon.svg");
+}
+
+[data-theme="light"] {
+  --background-color: white;
+  --text-color: black;
+  --border-color: black;
+  --add-btn: url("../images/add-btn-black.svg");
+  --edit-btn: url("../images/edit-btn-black.svg");
+}
