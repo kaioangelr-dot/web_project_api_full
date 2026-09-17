@@ -44,22 +44,18 @@ export default function App() {
   });
 
   //----------------------------------------------- theme ----------------------------------------------------------------------
-  const [isLight, setIsLight] = useState(false);
+  const [isLight, setIsLight] = useState(() => {
+    return getTheme() === "true";
+  });
 
-  function handleTheme(theme) {
-    setTheme(!theme);
-    setIsLight(!theme);
+  function handleTheme() {
+    setIsLight((prev) => {
+      const nextTheme = !prev;
+      setTheme(nextTheme);
+      return nextTheme;
+    });
   }
 
-  useEffect(() => {
-    const isThemeLight = getTheme() === "true";
-
-    if (isThemeLight) {
-      return setIsLight(isThemeLight);
-    }
-
-    return;
-  }, []);
   //----------------------------------------------- close and open popup --------------------------------------------------------
   useEffect(() => {
     if (!popup) return;

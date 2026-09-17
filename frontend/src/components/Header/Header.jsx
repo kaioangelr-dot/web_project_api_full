@@ -38,7 +38,7 @@ export default function Header({ isLoggedIn, setIsLoggedIn, email, isLight, setT
         ></span>
       </button>
       <div className={`header__container ${showoptions && "header__container-options_active"}`}>
-        <button className="header__switch-theme" onClick={() => setTheme(isLight)}></button>
+        <button className="header__switch-theme" onClick={() => setTheme()}></button>
         {isLoggedIn ? (
           <>
             <p className="header__title header__title-email">{`${email}`}</p>
