@@ -16,7 +16,7 @@ This repository contains the complete full-stack implementation of the "Around t
 - **Fluid Layouts:** Built using CSS Grid and Flexbox to adapt from large desktop monitors down to small mobile screens.
 - **Breakpoints:** Customized media queries ensure content stacks cleanly into single-column viewports without horizontal scrolling.
 
-[add screenshot / GIF]
+![Showing responsive design on DevTools gif](./frontend/readme-pics/responsive.gif)
 
 ### ❤️ Interactive Cards & Visual Feedback
 
