@@ -4,8 +4,7 @@
   --text-color: white;
   --second-text-color: black;
   --border-color: white;
-  --add-btn: url("../images/add-icon.svg");
-  --edit-btn: url("../images/edit-icon.svg");
+  --svg-color: invert(0);
   --hover-btn: #ccc;
   --input-color: #ccc;
   --theme-btn: url("../images/light-mode.svg");
@@ -18,10 +17,9 @@
   --text-color: black;
   --second-text-color: white;
   --border-color: black;
-  --add-btn: url("../images/add-btn-black.svg");
-  --edit-btn: url("../images/edit-btn-black.svg");
+  --svg-color: invert(100%);
   --hover-btn: #333;
   --input-color: #333;
   --theme-btn: url("../images/dark-mode.svg");
-  --spinner: black;
+  --spinner: #555;
 }

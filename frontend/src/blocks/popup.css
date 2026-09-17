@@ -133,6 +133,7 @@
   font-weight: 900;
   line-height: 1;
   margin-bottom: 30px;
+  color: #000;
 }
 
 @media screen and (max-width: 544px) {
