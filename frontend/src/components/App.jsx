@@ -186,7 +186,7 @@ export default function App() {
   //------------------------------------------------------- authorization -------------------------------------------------------------
 
   const popupIsAuthorized = {
-    children: <IsAuthorized />,
+    children: <IsAuthorized handleClosePopup={handleClosePopup} />,
   };
 
   const popupIsNotAuthorized = {
