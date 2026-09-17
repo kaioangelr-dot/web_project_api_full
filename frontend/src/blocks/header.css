@@ -62,6 +62,25 @@
   .header {
     max-width: 95%;
   }
+
+  .header__container {
+    gap: 0 36px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .header {
+    max-width: 95%;
+  }
+
+  .header__container {
+    gap: 0 20px;
+  }
+
+  .header__logo {
+    width: 150px;
+    height: 27px;
+  }
 }
 
 @media screen and (max-width: 544px) {
