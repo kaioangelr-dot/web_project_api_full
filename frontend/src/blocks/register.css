@@ -80,6 +80,20 @@
   cursor: pointer;
 }
 
+@media screen and (max-width: 890px) {
+  .register__form {
+    width: 50%;
+  }
+
+  .register__button {
+    width: 50%;
+  }
+
+  .register__signin {
+    width: 50%;
+  }
+}
+
 @media screen and (max-width: 544px) {
   .register {
     padding: 40px 30px;

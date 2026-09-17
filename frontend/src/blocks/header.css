@@ -58,6 +58,12 @@
   padding: 0;
 }
 
+@media screen and (max-width: 860px) {
+  .header {
+    max-width: 95%;
+  }
+}
+
 @media screen and (max-width: 544px) {
   .header {
     min-height: 85px;
@@ -112,7 +118,7 @@
   }
 
   .header__title {
-    font-size: 14px;
+    display: none;
   }
 
   .header__container {

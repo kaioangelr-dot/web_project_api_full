@@ -39,13 +39,15 @@ export default function Header({ isLoggedIn, setIsLoggedIn, email, isLight, setT
       </button>
       <div className={`header__container ${showoptions && "header__container-options_active"}`}>
         <button className="header__switch-theme" onClick={() => setTheme(isLight)}></button>
-        {isLoggedIn && (
+        {isLoggedIn ? (
           <>
             <p className="header__title header__title-email">{`${email}`}</p>
             <button className="header__logout-btn" onClick={signout}>
               Sair
             </button>
           </>
+        ) : (
+          <p className="header__title">{location.pathname === "/signin" ? "Entrar" : "Cadastrar"}</p>
         )}
       </div>
     </header>

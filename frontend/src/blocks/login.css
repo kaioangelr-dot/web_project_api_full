@@ -80,6 +80,20 @@
   cursor: pointer;
 }
 
+@media screen and (max-width: 890px) {
+  .login__form {
+    width: 50%;
+  }
+
+  .login__button {
+    width: 50%;
+  }
+
+  .login__signup {
+    width: 50%;
+  }
+}
+
 @media screen and (max-width: 544px) {
   .login {
     padding: 40px 30px;
