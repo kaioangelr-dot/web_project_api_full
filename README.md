@@ -9,42 +9,42 @@ This repository contains the complete full-stack implementation of the "Around t
 - **UX/UI:** Switching between dark (default) and light mode for a better visual comfort across different lighting environments.
 - **Local Persistence:** User theme preference is stored in `localStorage` to preserve the selected state across sessions.
 
-![Switching between dark and Light Mode](./frontend/readme-pics/switching-theme.gif)
+![Switching between dark and Light Mode](https://imgur.com/gallery/project-around-us-gifs-v4oRFJH#MHAKHAk)
 
 ### ❤️ Interactive Cards & Visual Feedback
 
 - **UX/UI:** Dynamic card components with real-time like counters and active state visual highlights.
 - **Micro-interactions:** Smooth hover transitions and instant UI updates when liking/unliking cards.
 
-![Like button gif](./frontend/readme-pics/like-btn.gif)
+![Like button gif](https://imgur.com/gallery/project-around-us-gifs-v4oRFJH#KYCuJil)
 
 ### 💬 Modals & Contextual Popups
 
 - **UX/UI:** Overlay windows for profile editing, avatar updates, card creation, and full-screen image views (Lightbox).
 
-![Moldals](./frontend/readme-pics/modals.gif)
+![Moldals](https://imgur.com/gallery/project-around-us-gifs-v4oRFJH#6SYFR9f)
 
 - **Error Prevention:** Real-time form validation with user-friendly error messages, keeping the submit button disabled until the input is valid.
 
-![Form input erros](./frontend/readme-pics/error-input.gif)
+![Form input erros](https://imgur.com/gallery/project-around-us-gifs-v4oRFJH#FUm5M63)
 
 - **Loading States:** Dynamic button text changes (e.g., _"Saving..."_) during asynchronous API requests to keep the user informed.
 
-![loading gif](./frontend/readme-pics/loading.gif)
+![loading gif](https://imgur.com/gallery/project-around-us-gifs-v4oRFJH#cORtWug)
 
 ### 📱 Responsive Design & Mobile Adaptability
 
 - **Fluid Layouts:** Built using CSS Grid and Flexbox to adapt from large desktop monitors down to small mobile screens.
 - **Breakpoints:** Customized media queries ensure content stacks cleanly into single-column viewports without horizontal scrolling.
 
-![Showing responsive design on DevTools gif](./frontend/readme-pics/responsive.gif)
+![Showing responsive design on DevTools gif](https://imgur.com/gallery/project-around-us-gifs-v4oRFJH#1VYAyav)
 
 ### 🗑️ Smart Contextual Buttons
 
 - **UX/UI:** The card delete button is visible **exclusively** to the content creator, reducing interface clutter and preventing unauthorized deletion attempts.
 - **Safety Confirmation:** Confirmation modal before executing destructive actions (permanent deletion).
 
-![deleting a card](./frontend/readme-pics/delete.gif)
+![deleting a card](https://imgur.com/gallery/project-around-us-gifs-v4oRFJH#AgpbWyl)
 
 ## Technologies Used
 
