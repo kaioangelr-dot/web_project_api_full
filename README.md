@@ -2,6 +2,50 @@
 
 This repository contains the complete full-stack implementation of the "Around the U.S." web application. The project integrates React front-end with Node.js/Express back-end RESTful API, featuring full user authentication, state management, and secure secret key isolation.
 
+## 🎨 Front-End (UX & UI)
+
+### 🌗 Dark and Light Theme
+
+- **UX/UI:** Switching between dark (default) and light mode for a better visual comfort across different lighting environments.
+- **Local Persistence:** User theme preference is stored in `localStorage` to preserve the selected state across sessions.
+
+![Switching between dark and Light Mode](./frontend/readme-pics/switching-theme.gif)
+
+### 📱 Responsive Design & Mobile Adaptability
+
+- **Fluid Layouts:** Built using CSS Grid and Flexbox to adapt from large desktop monitors down to small mobile screens.
+- **Breakpoints:** Customized media queries ensure content stacks cleanly into single-column viewports without horizontal scrolling.
+
+[add screenshot / GIF]
+
+### ❤️ Interactive Cards & Visual Feedback
+
+- **UX/UI:** Dynamic card components with real-time like counters and active state visual highlights.
+- **Micro-interactions:** Smooth hover transitions and instant UI updates when liking/unliking cards.
+
+![Like button gif](./frontend/readme-pics/like-btn.gif)
+
+### 💬 Modals & Contextual Popups
+
+- **UX/UI:** Overlay windows for profile editing, avatar updates, card creation, and full-screen image views (Lightbox).
+
+![Moldals](./frontend/readme-pics/modals.gif)
+
+- **Error Prevention:** Real-time form validation with user-friendly error messages, keeping the submit button disabled until the input is valid.
+
+![Form input erros](./frontend/readme-pics/error-input.gif)
+
+- **Loading States:** Dynamic button text changes (e.g., _"Saving..."_) during asynchronous API requests to keep the user informed.
+
+![loading gif](./frontend/readme-pics/loading.gif)
+
+### 🗑️ Smart Contextual Buttons
+
+- **UX/UI:** The card delete button is visible **exclusively** to the content creator, reducing interface clutter and preventing unauthorized deletion attempts.
+- **Safety Confirmation:** Confirmation modal before executing destructive actions (permanent deletion).
+
+![deleting a card](./frontend/readme-pics/delete.gif)
+
 ## Technologies Used
 
 ### Front-End
@@ -51,9 +95,14 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
 - [x] **Strong Secrets**: Keys generated via `crypto.randomBytes(32)` instead of plain text strings.
 - [x] **Git Safety**: Environment credentials excluded from public commit history.
 
+## Server Domain
+
+- **API:** https://web-project-api-full-t9w5.onrender.com/
+- **Frontend:** https://web-project-api-full-topaz.vercel.app/
+
 ```
 web_project_api_full
-├─ *backend*
+├─ backend
 │  ├─ .editorconfig
 │  ├─ .env
 │  ├─ .eslintrc
@@ -81,12 +130,13 @@ web_project_api_full
 │  └─ routes
 │     ├─ cards.js
 │     └─ users.js
-├─ *frontend*
+├─ frontend
+│  ├─ .env
 │  ├─ dist
 │  │  ├─ assets
 │  │  │  ├─ alright-C_GbZo9o.png
 │  │  │  ├─ error-7CfmJwJ9.png
-│  │  │  ├─ index-BzuE_iLl.js
+│  │  │  ├─ index-2KsANoPV.js
 │  │  │  ├─ index-vfL1X3AA.css
 │  │  │  ├─ Inter-Black-B5fx6SzK.woff2
 │  │  │  ├─ Inter-Medium-DVwNBK5Q.woff2
@@ -119,7 +169,8 @@ web_project_api_full
 │  │  │  ├─ popup.css
 │  │  │  ├─ profile.css
 │  │  │  ├─ register.css
-│  │  │  └─ spinner.css
+│  │  │  ├─ spinner.css
+│  │  │  └─ theme.css
 │  │  ├─ components
 │  │  │  ├─ App.jsx
 │  │  │  ├─ Footer
@@ -137,16 +188,11 @@ web_project_api_full
 │  │  │  │  │  │  └─ Card.jsx
 │  │  │  │  │  └─ Popup
 │  │  │  │  │     ├─ components
-│  │  │  │  │     │  ├─ EditAvatar
-│  │  │  │  │     │  │  └─ EditAvatar.jsx
-│  │  │  │  │     │  ├─ EditProfile
-│  │  │  │  │     │  │  └─ EditProfile.jsx
-│  │  │  │  │     │  ├─ ImagePopup
-│  │  │  │  │     │  │  └─ ImagePopup.jsx
-│  │  │  │  │     │  ├─ NewCard
-│  │  │  │  │     │  │  └─ NewCard.jsx
-│  │  │  │  │     │  └─ PopupWithConfirmation
-│  │  │  │  │     │     └─ PopupWithConfirmation.jsx
+│  │  │  │  │     │  ├─ EditAvatar.jsx
+│  │  │  │  │     │  ├─ EditProfile.jsx
+│  │  │  │  │     │  ├─ ImagePopup.jsx
+│  │  │  │  │     │  ├─ NewCard.jsx
+│  │  │  │  │     │  └─ PopupWithConfirmation.jsx
 │  │  │  │  │     └─ Popup.jsx
 │  │  │  │  └─ Main.jsx
 │  │  │  ├─ pages
@@ -165,11 +211,14 @@ web_project_api_full
 │  │  │  ├─ alright.png
 │  │  │  ├─ avatar.jpg
 │  │  │  ├─ close.svg
+│  │  │  ├─ dark-mode.svg
 │  │  │  ├─ delete-icon.svg
 │  │  │  ├─ edit-icon.svg
 │  │  │  ├─ error.png
+│  │  │  ├─ light-mode.svg
 │  │  │  ├─ like-active.svg
 │  │  │  ├─ like-inactive.svg
+│  │  │  ├─ logo-black.svg
 │  │  │  ├─ logo.svg
 │  │  │  ├─ placeholder.jpg
 │  │  │  └─ profile-edit.svg
@@ -178,6 +227,7 @@ web_project_api_full
 │  │  ├─ utils
 │  │  │  ├─ api.js
 │  │  │  ├─ auth.js
+│  │  │  ├─ theme.js
 │  │  │  └─ token.js
 │  │  └─ vendor
 │  │     ├─ fonts
@@ -187,13 +237,6 @@ web_project_api_full
 │  │     ├─ fonts.css
 │  │     └─ normalize.css
 │  └─ vite.config.js
-├─ package-lock.json
-├─ package.json
 └─ README.md
 
 ```
-
-## Server Domain
-
-- **API:** https://web-project-api-full-t9w5.onrender.com/
-- **Frontend:** https://web-project-api-full-topaz.vercel.app/
