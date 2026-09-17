@@ -11,13 +11,6 @@ This repository contains the complete full-stack implementation of the "Around t
 
 ![Switching between dark and Light Mode](./frontend/readme-pics/switching-theme.gif)
 
-### 📱 Responsive Design & Mobile Adaptability
-
-- **Fluid Layouts:** Built using CSS Grid and Flexbox to adapt from large desktop monitors down to small mobile screens.
-- **Breakpoints:** Customized media queries ensure content stacks cleanly into single-column viewports without horizontal scrolling.
-
-![Showing responsive design on DevTools gif](./frontend/readme-pics/responsive.gif)
-
 ### ❤️ Interactive Cards & Visual Feedback
 
 - **UX/UI:** Dynamic card components with real-time like counters and active state visual highlights.
@@ -38,6 +31,13 @@ This repository contains the complete full-stack implementation of the "Around t
 - **Loading States:** Dynamic button text changes (e.g., _"Saving..."_) during asynchronous API requests to keep the user informed.
 
 ![loading gif](./frontend/readme-pics/loading.gif)
+
+### 📱 Responsive Design & Mobile Adaptability
+
+- **Fluid Layouts:** Built using CSS Grid and Flexbox to adapt from large desktop monitors down to small mobile screens.
+- **Breakpoints:** Customized media queries ensure content stacks cleanly into single-column viewports without horizontal scrolling.
+
+![Showing responsive design on DevTools gif](./frontend/readme-pics/responsive.gif)
 
 ### 🗑️ Smart Contextual Buttons
 
@@ -61,23 +61,23 @@ This repository contains the complete full-stack implementation of the "Around t
 - **MongoDB & Mongoose** — Document-based database for storing users and cards.
 - **jsonwebtoken (JWT)** — Token-based authorization for protected endpoints.
 - **dotenv & Crypto** — Secure environment variable loading and 256-bit cryptographic key generation.
+- **CORS (Cross-Origin Resource Sharing)** — Configured middleware ensuring secure cross-origin communication between the front-end client and back-end services.
 
 ## Features Implemented
 
-### 1. Front-End Interface & User Flow
+### Front-End Interface & User Flow
 
 - **Authentication & Authorization**: Dedicated Login and Register components managed by `ProtectedRoute` route guards.
 - **Token Persistence**: Automatic user re-authentication on refresh via `localStorage` and `Authorization: Bearer {token}` API headers.
 - **Componentized UI**: Modular modals (`Popup`), customizable feedback windows (`InfoTooltip`), and dynamic media cards (`Card`).
 - **State Management & Feedback**: Centralized app state in `App.jsx`, native form validation, loading spinners, and instant UI updates for likes and card deletions.
 
-### 2. Back-End API & Database Architecture
+### Back-End API & Database Architecture
 
 - **User Endpoints**: Routes for fetching profiles (`GET /users/me`), updating user profiles (`PATCH /users/me`), and avatar updates (`PATCH /users/me/avatar`).
 - **Card Endpoints**: CRUD operations for gallery cards (`GET /cards`, `POST /cards`, `DELETE /cards/:cardId`) and interaction handling (`PUT /cards/:cardId/likes`, `DELETE /cards/:cardId/likes`).
-- **Centralized Error Handling**: Standardized response codes (400, 401, 404, 500) with custom middleware for non-existent routes.
 
-### 3. Security & Secret Management
+### Security & Secret Management
 
 Cryptographic Keys: Generation of 256-bit (32-byte) pseudo-random keys using Node.js's native `crypto` module:
 
@@ -85,20 +85,44 @@ Cryptographic Keys: Generation of 256-bit (32-byte) pseudo-random keys using Nod
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
 \`\`\`
 
-- **Environment Isolation**: Loading `JWT_SECRET` dynamically via `dotenv` with fallback key handling for local development vs. production environments.
+- **Environment Isolation**: Loading `JWT_SECRET`, `NODE_ENV` and `MONGO_URI` dynamically via `dotenv` with fallback key handling for local development vs. production environments.
 - **Git Exclusions**: Strictly isolating `.env` files using `.gitignore` to prevent credential exposure in remote repositories.
 
-## 🔐 Security Checklist
+### Request Validation & Centralized Error Handling
+
+- **Input Validation:** Middleware (_celebrate/Joi_) sanitizes and validates URLs, emails, and request bodies before reaching controller logic.
+- **Centralized Error Handler:** Unified error-handling middleware that returns standardized HTTP status codes (400, 401, 403, 404, 500) without exposing sensitive database or server details.
+
+### Logging & Infrastructure
+
+- **Automated Logging:** Request (`request.log`) and error (`error.log`) details logged independently in structured JSON format.
+- **Process Management:** Application process monitored via **PM2** in production to handle automatic restarts in case of unexpected crashes.
+
+## Security Checklist
 
 - [x] **Client Security**: Token storage and protected routes implemented on the front-end.
 - [x] **API Authorization**: Express middleware validating JWT signatures on private routes.
 - [x] **Strong Secrets**: Keys generated via `crypto.randomBytes(32)` instead of plain text strings.
 - [x] **Git Safety**: Environment credentials excluded from public commit history.
 
-## Server Domain
+## Next Development Steps
 
-- **API:** https://web-project-api-full-t9w5.onrender.com/
-- **Frontend:** https://web-project-api-full-topaz.vercel.app/
+### Front-End Enhancements
+
+- [ ] **Customized Feed & Preferences:** Allow users to filter or sort card feeds based on individual preferences.
+- [ ] **Interactive Layout Reordering:** Implement drag-and-drop mechanics for personalizing card layouts on the user profile.
+- [ ] **Expanded Registration Flow:** Include `username`, `avatar`, and `description` inputs directly during the sign-up process.
+- [ ] **Drag-and-Drop Media Uploads:** Enhance card creation popups by enabling drag-and-drop media uploads alongside direct URL inputs.
+- [ ] **End-to-End Testing:** Implement automated front-end testing.
+
+### Back-End & Security Enhancements
+
+- [ ] **`httpOnly` Cookie Authentication:** Shift JWT storage from `localStorage` to `httpOnly` secure cookies to mitigate Cross-Site Scripting (XSS) risks.
+- [ ] **Rate Limiting:** Implement `express-rate-limit` middleware on critical endpoints (`/signin`, `/signup`) to protect against brute-force and Denial of Service (DoS) attacks.
+- [ ] **Cloud Storage Integration:** Replace external image URL links with direct file upload capabilities integrated with Amazon S3 or Cloudinary.
+- [ ] **Automated Testing Suite:** Expand unit and integration test coverage using Jest and Supertest within Continuous Integration (CI) pipelines.
+
+## Project Structure
 
 ```
 web_project_api_full
@@ -240,3 +264,8 @@ web_project_api_full
 └─ README.md
 
 ```
+
+## Server Domain
+
+- **API:** https://web-project-api-full-t9w5.onrender.com/
+- **Frontend:** https://web-project-api-full-topaz.vercel.app/
