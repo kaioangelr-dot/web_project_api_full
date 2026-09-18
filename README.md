@@ -1,130 +1,101 @@
-# Tripleten web_project_api_full (Full-Stack Application)
+# Tripleten web_project_api_full
 
-This repository contains the complete full-stack implementation of the "Around the U.S." web application. The project integrates React front-end with Node.js/Express back-end RESTful API, featuring full user authentication, state management, and secure secret key isolation.
+A full-stack web application inspired by the “Around the U.S.” project. This repository contains the complete implementation of a React frontend and a Node.js/Express REST API with authentication, protected routes, card management, profile editing, and secure secret handling.
 
-## 🎨 Front-End (UX & UI)
+## Live Demo
 
-### 🌗 Dark and Light Theme
+- Frontend: https://web-project-api-full-topaz.vercel.app/
+- Backend API: https://web-project-api-full-t9w5.onrender.com/
 
-- **UX/UI:** Switching between dark (default) and light mode for a better visual comfort across different lighting environments.
-- **Local Persistence:** User theme preference is stored in `localStorage` to preserve the selected state across sessions.
+## Overview
 
-![Switching between dark and Light Mode](./frontend/readme-pics/switching-theme.gif)
+This app allows users to:
 
-### ❤️ Interactive Cards & Visual Feedback
+- Sign up and log in
+- Create and delete cards
+- Like and unlike cards
+- Edit their profile and avatar
+- Switch between dark and light themes
+- Access protected routes only when authenticated
 
-- **UX/UI:** Dynamic card components with real-time like counters and active state visual highlights.
-- **Micro-interactions:** Smooth hover transitions and instant UI updates when liking/unliking cards.
+The project is split into two main parts:
+
+- `frontend/` — React + Vite client application
+- `backend/` — Express API + MongoDB + authentication logic
+
+## Features
+
+### Frontend
+
+- Responsive single-page app built with React and Vite
+- Protected routes for authenticated users only
+- Login and registration flows
+- User profile editing and avatar update
+- Card creation with validation and feedback
+- Like/unlike interactions with instant UI updates
+- Modal-based forms and image lightbox
+- Dark/light theme with persistence via `localStorage`
+- Loading states and validation messages for a smoother UX
+
+### Backend
+
+- RESTful API built with Node.js and Express
+- JWT-based authentication and protected route middleware
+- MongoDB schema modeling for users and cards
+- Input validation using `celebrate` and `Joi`
+- Centralized error handling with consistent HTTP responses
+- Structured request and error logging
+- Secure environment variable loading with `dotenv`
+
+## Tech Stack
+
+### Frontend
+
+- React 18
+- Vite
+- React Router
+- CSS3
+- LocalStorage-based theme persistence
+
+### Backend
+
+- Node.js
+- Express.js
+- MongoDB + Mongoose
+- JWT (jsonwebtoken)
+- Dotenv
+- Crypto
+- CORS
+
+## Screenshots
+
+### Theme switching
+
+![Switching between dark and light mode](./frontend/readme-pics/switching-theme.gif)
+
+### Interactive cards and likes
 
 ![Like button gif](./frontend/readme-pics/like-btn.gif)
 
-### 💬 Modals & Contextual Popups
+### Modals and forms
 
-- **UX/UI:** Overlay windows for profile editing, avatar updates, card creation, and full-screen image views (Lightbox).
+![Modals](./frontend/readme-pics/modals.gif)
 
-![Moldals](./frontend/readme-pics/modals.gif)
+![Form input errors](./frontend/readme-pics/error-input.gif)
 
-- **Error Prevention:** Real-time form validation with user-friendly error messages, keeping the submit button disabled until the input is valid.
+![Loading gif](./frontend/readme-pics/loading.gif)
 
-![Form input erros](./frontend/readme-pics/error-input.gif)
+### Responsive layout
 
-- **Loading States:** Dynamic button text changes (e.g., _"Saving..."_) during asynchronous API requests to keep the user informed.
+![Responsive design on DevTools gif](./frontend/readme-pics/responsive.gif)
 
-![loading gif](./frontend/readme-pics/loading.gif)
+### Delete confirmation flow
 
-### 📱 Responsive Design & Mobile Adaptability
-
-- **Fluid Layouts:** Built using CSS Grid and Flexbox to adapt from large desktop monitors down to small mobile screens.
-- **Breakpoints:** Customized media queries ensure content stacks cleanly into single-column viewports without horizontal scrolling.
-
-![Showing responsive design on DevTools gif](./frontend/readme-pics/responsive.gif)
-
-### 🗑️ Smart Contextual Buttons
-
-- **UX/UI:** The card delete button is visible **exclusively** to the content creator, reducing interface clutter and preventing unauthorized deletion attempts.
-- **Safety Confirmation:** Confirmation modal before executing destructive actions (permanent deletion).
-
-![deleting a card](./frontend/readme-pics/delete.gif)
-
-## Technologies Used
-
-### Front-End
-
-- **React 18** — Component-based architecture for dynamic user interfaces.
-- **Vite** — High-performance build tool for the development environment.
-- **React Router** — Client-side navigation and protected route management.
-- **CSS3** — Modular styling and responsive design.
-
-### Back-End & Database
-
-- **Node.js & Express.js** — RESTful API server handling business logic and routing.
-- **MongoDB & Mongoose** — Document-based database for storing users and cards.
-- **jsonwebtoken (JWT)** — Token-based authorization for protected endpoints.
-- **dotenv & Crypto** — Secure environment variable loading and 256-bit cryptographic key generation.
-- **CORS (Cross-Origin Resource Sharing)** — Configured middleware ensuring secure cross-origin communication between the front-end client and back-end services.
-
-## Features Implemented
-
-### Front-End Interface & User Flow
-
-- **Authentication & Authorization**: Dedicated Login and Register components managed by `ProtectedRoute` route guards.
-- **Token Persistence**: Automatic user re-authentication on refresh via `localStorage` and `Authorization: Bearer {token}` API headers.
-- **Componentized UI**: Modular modals (`Popup`), customizable feedback windows (`InfoTooltip`), and dynamic media cards (`Card`).
-- **State Management & Feedback**: Centralized app state in `App.jsx`, native form validation, loading spinners, and instant UI updates for likes and card deletions.
-
-### Back-End API & Database Architecture
-
-- **User Endpoints**: Routes for fetching profiles (`GET /users/me`), updating user profiles (`PATCH /users/me`), and avatar updates (`PATCH /users/me/avatar`).
-- **Card Endpoints**: CRUD operations for gallery cards (`GET /cards`, `POST /cards`, `DELETE /cards/:cardId`) and interaction handling (`PUT /cards/:cardId/likes`, `DELETE /cards/:cardId/likes`).
-
-### Security & Secret Management
-
-Cryptographic Keys: Generation of 256-bit (32-byte) pseudo-random keys using Node.js's native `crypto` module:
-
-\`\`\`bash
-node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
-\`\`\`
-
-- **Environment Isolation**: Loading `JWT_SECRET`, `NODE_ENV` and `MONGO_URI` dynamically via `dotenv` with fallback key handling for local development vs. production environments.
-- **Git Exclusions**: Strictly isolating `.env` files using `.gitignore` to prevent credential exposure in remote repositories.
-
-### Request Validation & Centralized Error Handling
-
-- **Input Validation:** Middleware (_celebrate/Joi_) sanitizes and validates URLs, emails, and request bodies before reaching controller logic.
-- **Centralized Error Handler:** Unified error-handling middleware that returns standardized HTTP status codes (400, 401, 403, 404, 500) without exposing sensitive database or server details.
-
-### Logging & Infrastructure
-
-- **Automated Logging:** Request (`request.log`) and error (`error.log`) details logged independently in structured JSON format.
-- **Process Management:** Application process monitored via **PM2** in production to handle automatic restarts in case of unexpected crashes.
-
-## Security Checklist
-
-- [x] **Client Security**: Token storage and protected routes implemented on the front-end.
-- [x] **API Authorization**: Express middleware validating JWT signatures on private routes.
-- [x] **Strong Secrets**: Keys generated via `crypto.randomBytes(32)` instead of plain text strings.
-- [x] **Git Safety**: Environment credentials excluded from public commit history.
-
-## Next Development Steps
-
-### Front-End Enhancements
-
-- [ ] **Customized Feed & Preferences:** Allow users to filter or sort card feeds based on individual preferences.
-- [ ] **Interactive Layout Reordering:** Implement drag-and-drop mechanics for personalizing card layouts on the user profile.
-- [ ] **Expanded Registration Flow:** Include `username`, `avatar`, and `description` inputs directly during the sign-up process.
-- [ ] **Drag-and-Drop Media Uploads:** Enhance card creation popups by enabling drag-and-drop media uploads alongside direct URL inputs.
-- [ ] **End-to-End Testing:** Implement automated front-end testing.
-
-### Back-End & Security Enhancements
-
-- [ ] **`httpOnly` Cookie Authentication:** Shift JWT storage from `localStorage` to `httpOnly` secure cookies to mitigate Cross-Site Scripting (XSS) risks.
-- [ ] **Rate Limiting:** Implement `express-rate-limit` middleware on critical endpoints (`/signin`, `/signup`) to protect against brute-force and Denial of Service (DoS) attacks.
-- [ ] **Cloud Storage Integration:** Replace external image URL links with direct file upload capabilities integrated with Amazon S3 or Cloudinary.
-- [ ] **Automated Testing Suite:** Expand unit and integration test coverage using Jest and Supertest within Continuous Integration (CI) pipelines.
+![Deleting a card](./frontend/readme-pics/delete.gif)
 
 ## Project Structure
 
-```
+```text
 web_project_api_full
 ├─ backend
 │  ├─ .editorconfig
@@ -135,7 +106,6 @@ web_project_api_full
 │  ├─ controllers
 │  │  ├─ cards.js
 │  │  └─ users.js
-│  ├─ error.log
 │  ├─ errors
 │  │  ├─ BadRequestError.js
 │  │  ├─ ConflictError.js
@@ -151,24 +121,13 @@ web_project_api_full
 │  ├─ package-lock.json
 │  ├─ package.json
 │  ├─ request.log
+│  ├─ error.log
 │  └─ routes
 │     ├─ cards.js
 │     └─ users.js
 ├─ frontend
 │  ├─ .env
 │  ├─ dist
-│  │  ├─ assets
-│  │  │  ├─ alright-C_GbZo9o.png
-│  │  │  ├─ error-7CfmJwJ9.png
-│  │  │  ├─ index-2KsANoPV.js
-│  │  │  ├─ index-vfL1X3AA.css
-│  │  │  ├─ Inter-Black-B5fx6SzK.woff2
-│  │  │  ├─ Inter-Medium-DVwNBK5Q.woff2
-│  │  │  ├─ Inter-Regular-CuH2jfV0.woff2
-│  │  │  └─ logo-BtAh_fAz.svg
-│  │  ├─ favicon.svg
-│  │  ├─ icons.svg
-│  │  └─ index.html
 │  ├─ eslint.config.js
 │  ├─ index.html
 │  ├─ package-lock.json
@@ -176,96 +135,165 @@ web_project_api_full
 │  ├─ public
 │  │  ├─ favicon.svg
 │  │  └─ icons.svg
-│  ├─ react-router-demo-pt
 │  ├─ src
 │  │  ├─ assets
-│  │  │  ├─ hero.png
-│  │  │  ├─ react.svg
-│  │  │  └─ vite.svg
 │  │  ├─ blocks
-│  │  │  ├─ card.css
-│  │  │  ├─ cards.css
-│  │  │  ├─ content.css
-│  │  │  ├─ footer.css
-│  │  │  ├─ header.css
-│  │  │  ├─ login.css
-│  │  │  ├─ page.css
-│  │  │  ├─ popup.css
-│  │  │  ├─ profile.css
-│  │  │  ├─ register.css
-│  │  │  ├─ spinner.css
-│  │  │  └─ theme.css
 │  │  ├─ components
-│  │  │  ├─ App.jsx
-│  │  │  ├─ Footer
-│  │  │  │  └─ Footer.jsx
-│  │  │  ├─ Header
-│  │  │  │  └─ Header.jsx
-│  │  │  ├─ InfoToolTip
-│  │  │  │  ├─ components
-│  │  │  │  │  ├─ IsAuthorized.jsx
-│  │  │  │  │  └─ IsNotAuthorized.jsx
-│  │  │  │  └─ InfoToolTip.jsx
-│  │  │  ├─ Main
-│  │  │  │  ├─ components
-│  │  │  │  │  ├─ Card
-│  │  │  │  │  │  └─ Card.jsx
-│  │  │  │  │  └─ Popup
-│  │  │  │  │     ├─ components
-│  │  │  │  │     │  ├─ EditAvatar.jsx
-│  │  │  │  │     │  ├─ EditProfile.jsx
-│  │  │  │  │     │  ├─ ImagePopup.jsx
-│  │  │  │  │     │  ├─ NewCard.jsx
-│  │  │  │  │     │  └─ PopupWithConfirmation.jsx
-│  │  │  │  │     └─ Popup.jsx
-│  │  │  │  └─ Main.jsx
-│  │  │  ├─ pages
-│  │  │  │  ├─ Login.jsx
-│  │  │  │  └─ Register.jsx
-│  │  │  ├─ ProtectedRoute
-│  │  │  │  └─ ProtectedRoute.jsx
-│  │  │  └─ spinner
-│  │  │     └─ spinner.jsx
 │  │  ├─ contexts
-│  │  │  └─ CurrentUserContext.js
 │  │  ├─ hooks
-│  │  │  └─ useValidation.js
 │  │  ├─ images
-│  │  │  ├─ add-icon.svg
-│  │  │  ├─ alright.png
-│  │  │  ├─ avatar.jpg
-│  │  │  ├─ close.svg
-│  │  │  ├─ dark-mode.svg
-│  │  │  ├─ delete-icon.svg
-│  │  │  ├─ edit-icon.svg
-│  │  │  ├─ error.png
-│  │  │  ├─ light-mode.svg
-│  │  │  ├─ like-active.svg
-│  │  │  ├─ like-inactive.svg
-│  │  │  ├─ logo-black.svg
-│  │  │  ├─ logo.svg
-│  │  │  ├─ placeholder.jpg
-│  │  │  └─ profile-edit.svg
+│  │  ├─ utils
+│  │  ├─ vendor
 │  │  ├─ index.css
 │  │  ├─ main.jsx
-│  │  ├─ utils
-│  │  │  ├─ api.js
-│  │  │  ├─ auth.js
-│  │  │  ├─ theme.js
-│  │  │  └─ token.js
-│  │  └─ vendor
-│  │     ├─ fonts
-│  │     │  ├─ Inter-Black.woff2
-│  │     │  ├─ Inter-Medium.woff2
-│  │     │  └─ Inter-Regular.woff2
-│  │     ├─ fonts.css
-│  │     └─ normalize.css
+│  │  └─ App.jsx
 │  └─ vite.config.js
 └─ README.md
-
 ```
+
+## Prerequisites
+
+Before running the app locally, make sure you have:
+
+- Node.js 18+
+- npm
+- MongoDB running locally or a MongoDB connection string
+
+## Environment Variables
+
+Create `.env` files in the `backend` and `frontend` folders as needed.
+
+### Backend `.env` example
+
+```bash
+PORT=3000
+MONGO_URI=mongodb://127.0.0.1:27017/aroundtheus
+JWT_SECRET=your_super_secret_key
+NODE_ENV=development
+```
+
+### Frontend `.env` example
+
+```bash
+VITE_API_URL=http://localhost:3000
+```
+
+## Local Setup
+
+### 1) Clone the repository
+
+```bash
+git clone https://github.com/kaioangelr-dot/web_project_api_full.git
+cd web_project_api_full
+```
+
+### 2) Install backend dependencies
+
+```bash
+cd backend
+npm install
+```
+
+### 3) Install frontend dependencies
+
+```bash
+cd ../frontend
+npm install
+```
+
+### 4) Start MongoDB
+
+Make sure MongoDB is running locally before starting the backend.
+
+### 5) Run the backend
+
+```bash
+cd backend
+npm run dev
+```
+
+### 6) Run the frontend
+
+```bash
+cd frontend
+npm run dev
+```
+
+The frontend usually runs on `http://localhost:5173` and the backend on `http://localhost:3000`.
+
+## API Endpoints
+
+### Authentication
+
+- `POST /signup` — register a new user
+- `POST /signin` — log in and receive a JWT
+
+### Users
+
+- `GET /users/me` — get the current user profile
+- `PATCH /users/me` — update profile information
+- `PATCH /users/me/avatar` — update avatar image
+
+### Cards
+
+- `GET /cards` — get all cards
+- `POST /cards` — create a new card
+- `DELETE /cards/:cardId` — delete a card
+- `PUT /cards/:cardId/likes` — like a card
+- `DELETE /cards/:cardId/likes` — unlike a card
+
+## Security Notes
+
+- JWTs are used for authenticated API access.
+- Protected routes validate the token before granting access.
+- Sensitive environment variables are kept in `.env` files and excluded from Git.
+- Secrets can be generated securely with Node.js crypto:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
+```
+
+## Request Validation and Error Handling
+
+The backend validates input before controller logic runs, helping prevent malformed requests and invalid URLs or email addresses.
+
+Common error responses include:
+
+- `400 Bad Request`
+- `401 Unauthorized`
+- `403 Forbidden`
+- `404 Not Found`
+- `500 Internal Server Error`
+
+## Security Checklist
+
+- [x] Client-side token storage and protected routes implemented
+- [x] JWT validation enforced on private routes
+- [x] Strong secret generation using `crypto.randomBytes(32)`
+- [x] Environment credentials excluded from source control
+
+## Future Improvements
+
+### Frontend
+
+- [ ] Add personalized feed filtering and sorting
+- [ ] Allow drag-and-drop card reordering on user profiles
+- [ ] Add username, avatar, and description inputs to the registration flow
+- [ ] Support drag-and-drop media uploads in card creation
+- [ ] Add automated frontend testing
+
+### Backend and Security
+
+- [ ] Move JWT storage from `localStorage` to `httpOnly` cookies
+- [ ] Add rate limiting for `/signin` and `/signup`
+- [ ] Integrate cloud storage like Amazon S3 or Cloudinary for image uploads
+- [ ] Expand automated testing with Jest and Supertest
+
+## Notes
+
+This project demonstrates a complete full-stack architecture using a modern React frontend and a secure Express backend. It is suitable for learning about full-stack web development, REST APIs, JWT authentication, and MongoDB-driven applications.
 
 ## Server Domain
 
-- **API:** https://web-project-api-full-t9w5.onrender.com/
-- **Frontend:** https://web-project-api-full-topaz.vercel.app/
+- API: https://web-project-api-full-t9w5.onrender.com/
+- Frontend: https://web-project-api-full-topaz.vercel.app/
