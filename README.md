@@ -36,6 +36,8 @@ The project is split into two main parts:
 - Modal-based forms and image lightbox
 - Dark/light theme with persistence via `localStorage`
 - Loading states and validation messages for a smoother UX
+- The delete button is visible only to the current user who created the card
+- A confirmation modal helps prevent accidental permanent deletion
 
 ### Backend
 
@@ -95,11 +97,12 @@ The project is split into two main parts:
 
 ## Project Structure
 
+The following tree focuses on the directories and files that are most useful for understanding the application. Generated files, logs, dependencies, build output, and environment files are intentionally omitted.
+
 ```text
 web_project_api_full
 ├─ backend
 │  ├─ .editorconfig
-│  ├─ .env
 │  ├─ .eslintrc
 │  ├─ .prettierrc
 │  ├─ app.js
@@ -120,14 +123,10 @@ web_project_api_full
 │  │  └─ user.js
 │  ├─ package-lock.json
 │  ├─ package.json
-│  ├─ request.log
-│  ├─ error.log
 │  └─ routes
 │     ├─ cards.js
 │     └─ users.js
 ├─ frontend
-│  ├─ .env
-│  ├─ dist
 │  ├─ eslint.config.js
 │  ├─ index.html
 │  ├─ package-lock.json
@@ -135,21 +134,51 @@ web_project_api_full
 │  ├─ public
 │  │  ├─ favicon.svg
 │  │  └─ icons.svg
+│  ├─ readme-pics
+│  │  ├─ switching-theme.gif
+│  │  ├─ like-btn.gif
+│  │  ├─ modals.gif
+│  │  ├─ error-input.gif
+│  │  ├─ loading.gif
+│  │  ├─ responsive.gif
+│  │  └─ delete.gif
 │  ├─ src
-│  │  ├─ assets
 │  │  ├─ blocks
 │  │  ├─ components
+│  │  │  ├─ App.jsx
+│  │  │  ├─ Footer
+│  │  │  ├─ Header
+│  │  │  ├─ InfoToolTip
+│  │  │  ├─ Main
+│  │  │  ├─ pages
+│  │  │  ├─ ProtectedRoute
+│  │  │  └─ spinner
 │  │  ├─ contexts
 │  │  ├─ hooks
 │  │  ├─ images
-│  │  ├─ utils
-│  │  ├─ vendor
 │  │  ├─ index.css
 │  │  ├─ main.jsx
-│  │  └─ App.jsx
+│  │  ├─ utils
+│  │  │  ├─ api.js
+│  │  │  ├─ auth.js
+│  │  │  ├─ theme.js
+│  │  │  └─ token.js
+│  │  └─ vendor
 │  └─ vite.config.js
 └─ README.md
 ```
+
+### Main directories
+
+- `backend/controllers/` — business logic for users and cards.
+- `backend/models/` — Mongoose models for users and cards.
+- `backend/routes/` — API route definitions.
+- `backend/middlewares/` — authentication and logging middleware.
+- `frontend/public/` — static files served directly by the browser, such as the favicon and icon sprite.
+- `frontend/src/components/` — reusable interface components.
+- `frontend/src/pages/` — login and registration pages.
+- `frontend/src/utils/` — API requests, authentication, token, and theme utilities.
+- `frontend/readme-pics/` — screenshots and GIFs used in this documentation.
 
 ## Prerequisites
 
@@ -161,7 +190,7 @@ Before running the app locally, make sure you have:
 
 ## Environment Variables
 
-Create `.env` files in the `backend` and `frontend` folders as needed.
+Create local `.env` files in the `backend` and `frontend` directories. Do not commit real credentials or secrets.
 
 ### Backend `.env` example
 
@@ -246,7 +275,8 @@ The frontend usually runs on `http://localhost:5173` and the backend on `http://
 
 - JWTs are used for authenticated API access.
 - Protected routes validate the token before granting access.
-- Sensitive environment variables are kept in `.env` files and excluded from Git.
+- Card deletion is restricted to the card creator on the backend as well as in the frontend interface.
+- Sensitive environment variables are kept in local `.env` files and excluded from Git.
 - Secrets can be generated securely with Node.js crypto:
 
 ```bash
