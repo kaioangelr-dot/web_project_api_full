@@ -15,11 +15,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const app = express();
 
 const validateURL = (value, helpers) => {
-  if (
-    /^https?:\/\/(www\.)?[\w-]+(\.[\w-]+)*\.[A-Za-z]{2,}(:\d+)?(\/\S*)?$/.test(
-      value,
-    )
-  ) {
+  if (/^https?:\/\/(www\.)?[\w-]+(\.[\w-]+)*\.[A-Za-z]{2,}(:\d+)?(\/\S*)?$/.test(value)) {
     return value;
   }
   return helpers.error('string.uri');
@@ -54,12 +50,6 @@ mongoose
   .catch((err) => {
     console.log('Error connecting to MongoDB:', err);
   });
-
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Server crashed for testing purposes');
-  }, 0);
-});
 
 app.post('/signin', validateSignin, login);
 app.post('/signup', validateSignup, createUser);
